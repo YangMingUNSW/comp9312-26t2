@@ -12,3 +12,11 @@ assignments and projects in the course.
 
 Further assignments and projects will be added as additional top-level folders
 (e.g. `assignment2/`, `project/`).
+
+## File naming convention
+
+For every assignment, each solution comes in two forms:
+
+- `*_solution.md` — readable Markdown solution.
+- `*_solution_pdf.md` — the same content as **LaTeX source**; copy the whole file
+  into Overleaf and compile to get the PDF for submission.
