@@ -12,6 +12,17 @@
 \usepackage{microtype}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
+\usepackage{forest}
+
+% --- Disjoint-set forest node style ---
+\forestset{
+  dsf/.style={
+    for tree={draw, rounded corners, semithick, minimum width=2.4em,
+      minimum height=1.9em, inner sep=2pt, font=\small, anchor=center,
+      edge={semithick}, s sep=5mm, l sep=7mm,
+      parent anchor=south, child anchor=north},
+  },
+}
 
 % --- Colour palette ---
 \definecolor{accent}{HTML}{1F4E79}   % deep blue for headings / boxes
@@ -59,93 +70,91 @@ smaller tree's root is attached under it. \textbf{Tie-break:} when both trees ha
 equal size, the tree whose root is \emph{lexicographically smaller} is treated as
 larger, so its root becomes the new root. (No path compression is applied.)
 
-Notation: \texttt{root(size)} with children indented; initially eight singletons
-$A,B,C,D,E,F,G,H$ each of size $1$. Each drawing shows only the non-trivial trees;
-any vertex not shown remains an isolated singleton.
+Notation: each node is a set element; a root is labelled \texttt{root\,(size)} and its
+children hang below it. Initially eight singletons $A,B,C,D,E,F,G,H$, each of size $1$.
+Each drawing shows only the non-trivial trees; any vertex not shown remains an isolated
+singleton.
 
 \medskip
 \textbf{Edge 1: B--C} --- both size $1$, tie $\Rightarrow$ smaller root $B$ wins.
-\begin{verbatim}
-B(2)
-+-- C
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(2)} [{$C$}]]
+\end{forest}
+\end{center}
 Components: $\{B,C\}$; singletons $A,D,E,F,G,H$.
 
 \textbf{Edge 2: A--C} --- $A$ (size $1$) vs.\ tree rooted $B$ (size $2$); $B$ larger.
-\begin{verbatim}
-B(3)
-+-- C
-+-- A
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(3)} [{$C$}] [{$A$}]]
+\end{forest}
+\end{center}
 Components: $\{A,B,C\}$; singletons $D,E,F,G,H$.
 
 \textbf{Edge 3: D--E} --- both size $1$, tie $\Rightarrow$ smaller root $D$ wins.
-\begin{verbatim}
-B(3)              D(2)
-+-- C             +-- E
-+-- A
-\end{verbatim}
+\begin{center}
+\begin{minipage}[t]{0.46\textwidth}\centering
+\begin{forest} dsf
+[{$B$\,(3)} [{$C$}] [{$A$}]]
+\end{forest}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.46\textwidth}\centering
+\begin{forest} dsf
+[{$D$\,(2)} [{$E$}]]
+\end{forest}
+\end{minipage}
+\end{center}
 Components: $\{A,B,C\}$, $\{D,E\}$; singletons $F,G,H$.
 
 \textbf{Edge 4: C--E} --- tree $B$ (size $3$) vs.\ tree $D$ (size $2$); $B$ larger,
 so $D$ attaches to $B$.
-\begin{verbatim}
-B(5)
-+-- C
-+-- A
-+-- D
-    +-- E
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(5)} [{$C$}] [{$A$}] [{$D$} [{$E$}]]]
+\end{forest}
+\end{center}
 Components: $\{A,B,C,D,E\}$; singletons $F,G,H$.
 
 \textbf{Edge 5: F--G} --- both size $1$, tie $\Rightarrow$ smaller root $F$ wins.
-\begin{verbatim}
-B(5)                F(2)
-+-- C               +-- G
-+-- A
-+-- D
-    +-- E
-\end{verbatim}
+\begin{center}
+\begin{minipage}[t]{0.6\textwidth}\centering
+\begin{forest} dsf
+[{$B$\,(5)} [{$C$}] [{$A$}] [{$D$} [{$E$}]]]
+\end{forest}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.34\textwidth}\centering
+\begin{forest} dsf
+[{$F$\,(2)} [{$G$}]]
+\end{forest}
+\end{minipage}
+\end{center}
 Components: $\{A,B,C,D,E\}$, $\{F,G\}$; singleton $H$.
 
 \textbf{Edge 6: E--G} --- tree $B$ (size $5$) vs.\ tree $F$ (size $2$); $F$ attaches
 to $B$.
-\begin{verbatim}
-B(7)
-+-- C
-+-- A
-+-- D
-|   +-- E
-+-- F
-    +-- G
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(7)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]]]
+\end{forest}
+\end{center}
 Components: $\{A,B,C,D,E,F,G\}$; singleton $H$.
 
 \textbf{Edge 7: H--F} --- tree $B$ (size $7$) vs.\ $H$ (size $1$); $H$ attaches to $B$.
-\begin{verbatim}
-B(8)
-+-- C
-+-- A
-+-- D
-|   +-- E
-+-- F
-|   +-- G
-+-- H
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(8)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]] [{$H$}]]
+\end{forest}
+\end{center}
 Components: $\{A,B,C,D,E,F,G,H\}$ --- a single component.
 
 \textbf{Edge 8: G--H} --- $\mathrm{find}(G)=\mathrm{find}(H)=B$: already in the same
 set $\Rightarrow$ \textbf{no change}; the forest is identical to that after Edge~7.
-\begin{verbatim}
-B(8)
-+-- C
-+-- A
-+-- D
-|   +-- E
-+-- F
-|   +-- G
-+-- H
-\end{verbatim}
+\begin{center}
+\begin{forest} dsf
+[{$B$\,(8)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]] [{$H$}]]
+\end{forest}
+\end{center}
 Components: $\{A,B,C,D,E,F,G,H\}$ --- unchanged (still one component).
 
 \answer{All eight elements end up in a single connected component: one tree of size~$8$ rooted at $B$, as shown after Edge~7.}
