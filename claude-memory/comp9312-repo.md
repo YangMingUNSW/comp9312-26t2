@@ -11,6 +11,7 @@ metadata:
 
 - Each assignment lives in its own top-level folder (`assignment1/`, future `assignment2/`, `project/`, …).
 - `.claude/` and LaTeX build artifacts are gitignored.
-- gh CLI is authenticated as `YangMingUNSW`; git user is YangMingUNSW / larryrowau@gmail.com.
+- git user is YangMingUNSW / larryrowau@gmail.com.
+- Per-machine clone paths (project key differs per path): `C:\Users\A\Desktop\9312` (original machine); `C:\Users\26616\Desktop\COMP9312` (larry-laptop, cloned via SSH 2026-06-16). On larry-laptop the SSH key is `~/.ssh/id_ed25519` (fingerprint `SHA256:IDyYD/AeDP9YIGqXLOCL54l3cH07ZgVPYFkL3lKRrZM`), added to GitHub; gh CLI is NOT installed here.
 
 See [[solution-file-convention]] for the per-assignment two-file output rule.
