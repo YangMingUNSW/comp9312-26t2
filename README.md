@@ -13,6 +13,14 @@ assignments and projects in the course.
 Further assignments and projects will be added as additional top-level folders
 (e.g. `assignment2/`, `project/`).
 
+## `claude-memory/`
+
+A mirror of Claude Code's persistent memory for this project, kept in the repo so
+CC's prior context follows you across machines. On a new machine, after cloning,
+copy these files into Claude Code's per-project memory directory
+(`~/.claude/projects/<project-key>/memory/`, where the key is derived from the
+project's absolute path on that machine).
+
 ## File naming convention
 
 For every assignment, each solution comes in two forms:
