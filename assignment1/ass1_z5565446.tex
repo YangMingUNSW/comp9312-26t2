@@ -75,7 +75,7 @@ becomes the new root.
 \noindent\textbf{\color{accent!85!black}Path compression.} Not applied.
 
 \noindent\textbf{\color{accent!85!black}Notation.} Each node is a set element; a root is labelled
-\texttt{root\,(size)} and its
+\texttt{root(size)} and its
 children hang below it. Initially eight singletons $A,B,C,D,E,F,G,H$, each of size $1$.
 Each drawing shows only the non-trivial trees; any vertex not shown remains an isolated
 singleton.
@@ -274,7 +274,7 @@ Reasoning per operation:
   \item \textbf{DFS$(u)$:} same enumeration cost as the BFS sweep from $u$.
 \end{itemize}
 
-The only structure that cannot enumerate neighbours in $O(\deg)$ is the adjacency
+The only structure that cannot enumerate neighbours in $O(\deg(v))$ is the adjacency
 matrix (a row scan is always $O(n)$), so all of its traversals become $O(n^2)$.
 
 For brevity write $d_u=\deg(u)$ and $d_v=\deg(v)$.
@@ -290,8 +290,8 @@ share the same cost --- only the per-vertex neighbour enumeration differs betwee
  & \textbf{SSSD$(u)$} & \textbf{CountCC$()$} & \textbf{DFS$(u)$} \\
 \midrule
 1. Adjacency matrix & $O(n^2)$ & $O(n^2)$ & $O(n^2)$ \\
-2. Adjacency arrays (unsorted) & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
-3. Sorted adjacency arrays & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
+2. Adjacency arrays (unsorted) & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
+3. Sorted adjacency arrays & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
 4. Hash-set adjacency lists & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
 5. CSR & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
 6. Adjacency balanced BSTs & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
@@ -327,7 +327,7 @@ structures, since it depends on each one's membership-test mechanism:
     $v$'s list is a linear scan $O(d_v)\Rightarrow O(d_u d_v)$.
   \item \textbf{Sorted arrays:} merge the two sorted neighbour lists $\Rightarrow O(d_u+d_v)$.
   \item \textbf{Hash sets (traversals):} worst-case $O(n + m)$ --- BFS/DFS only \emph{iterate}
-    each neighbour set ($O(\deg)$) and test the vertex-indexed \texttt{visited} array ($O(1)$);
+    each neighbour set ($O(\deg(v))$) and test the vertex-indexed \texttt{visited} array ($O(1)$);
     no hashing lookups are involved.
   \item \textbf{Hash sets (CommonNeighbours):} iterate the smaller set and do
     $O(1)$-expected lookups in the larger $\Rightarrow O(\min(d_u,d_v))$
@@ -468,8 +468,8 @@ TopologicalSort(G):   # Kahn's algorithm
 
 \subsection*{(b) Time complexity}
 
-Topological sort $O(n+m)$, the DP relaxes each edge once $O(n+m)$, reconstruction
-$O(n)$. Total: $\boxed{O(n+m)}$.
+Topological sort $O(n + m)$, the DP relaxes each edge once $O(n + m)$, reconstruction
+$O(n)$. Total: $\boxed{O(n + m)}$.
 
 \subsection*{(c) Worked example}
 
