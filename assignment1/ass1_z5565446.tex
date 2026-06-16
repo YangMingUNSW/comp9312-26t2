@@ -352,7 +352,7 @@ structures, since it depends on each one's membership-test mechanism:
     undiscovered.
 \end{itemize}
 \textbf{Equivalent test.} Remove $u$, then check whether $v$ is still reachable from $s$
-in $G\setminus\{u\}$.
+in the graph after deleting vertex $u$.
 The search below uses a queue only for this reachability check; any graph traversal
 (BFS \emph{or} DFS) works equally. This is a reachability test, not a DFS simulation.
 
