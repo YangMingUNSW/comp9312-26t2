@@ -26,5 +26,6 @@ project's absolute path on that machine).
 For every assignment, each solution comes in two forms:
 
 - `*_solution.md` — readable Markdown solution.
-- `*_solution_pdf.md` — the same content as **LaTeX source**; copy the whole file
-  into Overleaf and compile to get the PDF for submission.
+- `<submission>.tex` — the same content as a real **LaTeX source** file (named to
+  match the submission PDF, e.g. `ass1_z5565446.tex`); upload it to Overleaf and
+  compile to get the PDF for submission.
