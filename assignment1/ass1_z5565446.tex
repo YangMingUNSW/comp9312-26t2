@@ -65,12 +65,17 @@
 %=====================================================================
 \section*{Q1. Disjoint-set forests for connected components}
 
-\textbf{Setup.} Union by size: the larger tree's root stays as the root and the
-smaller tree's root is attached under it. \textbf{Tie-break:} when both trees have
-equal size, the tree whose root is \emph{lexicographically smaller} is treated as
-larger, so its root becomes the new root. (No path compression is applied.)
+\textbf{\color{accent!85!black}Setup.} Union by size: the larger tree's root stays as
+the root, and the smaller tree's root is attached under it.
 
-Notation: each node is a set element; a root is labelled \texttt{root\,(size)} and its
+\textbf{\color{accent!85!black}Tie-break.} When both trees have equal size, the tree
+whose root is \emph{lexicographically smaller} is treated as larger, so its root
+becomes the new root.
+
+\textbf{\color{accent!85!black}Path compression.} Not applied.
+
+\textbf{\color{accent!85!black}Notation.} Each node is a set element; a root is labelled
+\texttt{root\,(size)} and its
 children hang below it. Initially eight singletons $A,B,C,D,E,F,G,H$, each of size $1$.
 Each drawing shows only the non-trivial trees; any vertex not shown remains an isolated
 singleton.
@@ -287,15 +292,15 @@ share the same cost --- only the per-vertex neighbour enumeration differs betwee
 1. Adjacency matrix & $O(n^2)$ & $O(n^2)$ & $O(n^2)$ \\
 2. Adjacency arrays (unsorted) & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
 3. Sorted adjacency arrays & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
-4. Hash-set adjacency lists & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
-5. CSR & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
-6. Adjacency balanced BSTs & $O(n+m)$ & $O(n+m)$ & $O(n+m)$ \\
+4. Hash-set adjacency lists & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
+5. CSR & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
+6. Adjacency balanced BSTs & $O(n + m)$ & $O(n + m)$ & $O(n + m)$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \begin{minipage}{\linewidth}
-\noindent\textbf{Common-neighbour query.} This is the operation that distinguishes the
+\noindent\textbf{CountCommonNeighbours query.} This is the operation that distinguishes the
 structures, since it depends on each one's membership-test mechanism:
 \begin{center}
 \rowcolors{2}{accent!6}{white}
@@ -315,13 +320,13 @@ structures, since it depends on each one's membership-test mechanism:
 \end{center}
 \end{minipage}
 
-\noindent\textbf{Notes:}
+\noindent\textbf{Assumptions and justification:}
 \begin{itemize}[nosep]
   \item \textbf{Matrix CommonNeighbours $=O(n)$:} scan $w=1\ldots n$, test $M[u][w]\wedge M[v][w]$.
   \item \textbf{Unsorted arrays / CSR:} for each of $u$'s neighbours, a membership test in
     $v$'s list is a linear scan $O(d_v)\Rightarrow O(d_u d_v)$.
   \item \textbf{Sorted arrays:} merge the two sorted neighbour lists $\Rightarrow O(d_u+d_v)$.
-  \item \textbf{Hash sets (traversals):} worst-case $O(n+m)$ --- BFS/DFS only \emph{iterate}
+  \item \textbf{Hash sets (traversals):} worst-case $O(n + m)$ --- BFS/DFS only \emph{iterate}
     each neighbour set ($O(\deg)$) and test the vertex-indexed \texttt{visited} array ($O(1)$);
     no hashing lookups are involved.
   \item \textbf{Hash sets (CommonNeighbours):} iterate the smaller set and do
@@ -346,10 +351,10 @@ structures, since it depends on each one's membership-test mechanism:
     neighbours so DFS walks straight down $P$; then $v$ is discovered while $u$ is still
     undiscovered.
 \end{itemize}
-Equivalently: \textbf{remove $u$ and test whether $v$ is still reachable from $s$.}
-The search below uses a queue, but it only tests reachability in $G\setminus\{u\}$;
-any graph traversal (BFS \emph{or} DFS) works equally --- this is a reachability test,
-not a DFS simulation.
+\textbf{Equivalent test.} Remove $u$, then check whether $v$ is still reachable from $s$
+in $G\setminus\{u\}$.
+The search below uses a queue only for this reachability check; any graph traversal
+(BFS \emph{or} DFS) works equally. This is a reachability test, not a DFS simulation.
 
 \begin{minipage}{\linewidth}
 \begin{Verbatim}[fontsize=\small]
@@ -380,7 +385,7 @@ MustVisitBeforeDFS(G, s, u, v):
 
 \subsection*{(b) Time complexity}
 
-One BFS/DFS over the graph plus an $O(n)$ array initialisation: $\boxed{O(n+m)}$.
+One BFS/DFS over the graph plus an $O(n)$ array initialisation: $\boxed{O(n + m)}$.
 
 \subsection*{(c) Worked queries (source $s=A$)}
 
@@ -415,6 +420,7 @@ Query & $u$ & $v$ & Result & Why? ($v$ reachable from $A$ without $u$) \\
 Topologically sort, then DP in \textbf{reverse} topological order, where
 $\mathrm{dist}[u]$ is the length of the longest path \emph{starting} at $u$, with
 $\mathrm{next}[u]$ for reconstruction.
+After the DP pass, reconstruct one optimal path by following \texttt{next} pointers.
 
 \begin{minipage}{\linewidth}
 \begin{Verbatim}[fontsize=\small]
