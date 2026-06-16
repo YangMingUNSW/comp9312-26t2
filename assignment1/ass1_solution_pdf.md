@@ -8,16 +8,48 @@
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{fancyvrb}
+\usepackage[table]{xcolor}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
 
-% Slightly looser table rows
+% --- Colour palette ---
+\definecolor{accent}{HTML}{1F4E79}   % deep blue for headings / boxes
+
+% --- Section & subsection styling (with a rule under each section) ---
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{accent}}{}{0pt}{}[{\color{accent!40}\titlerule[1pt]}]
+\titlespacing*{\section}{0pt}{1.6em}{0.7em}
+\titleformat{\subsection}
+  {\normalfont\bfseries\color{accent!85!black}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{0.9em}{0.3em}
+
+% --- Slightly looser table rows ---
 \renewcommand{\arraystretch}{1.25}
 
-\title{COMP9312 --- Assignment 1 Solutions}
+% --- Highlighted final-answer box ---
+\newcommand{\answer}[1]{%
+  \par\smallskip\noindent
+  \fcolorbox{accent}{accent!6}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+      \textbf{\color{accent}Answer.}\ #1}}%
+  \par\smallskip}
+
+% --- Running header / footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\small COMP9312 --- Assignment 1}
+\rhead{\small Solutions}
+\cfoot{\small\thepage}
+
+\title{\vspace{-1.2em}\textbf{COMP9312 --- Assignment 1 Solutions}}
 \author{}
 \date{}
 
 \begin{document}
 \maketitle
+\thispagestyle{fancy}
 
 %=====================================================================
 \section*{Q1. Disjoint-set forests for connected components}
@@ -97,6 +129,8 @@ B(8)
 \textbf{Edge 8: G--H} --- $\mathrm{find}(G)=\mathrm{find}(H)=B$: already in the same
 set $\Rightarrow$ \textbf{no change} (identical to the tree above).
 
+\answer{All eight elements end up in a single connected component: one tree of size~$8$ rooted at $B$, as shown after Edge~7.}
+
 %=====================================================================
 \section*{Q2. BFS on a grid map}
 
@@ -150,8 +184,10 @@ Distances from $S$:
 \end{verbatim}
 
 \begin{center}
+\rowcolors{2}{accent!6}{white}
 \begin{tabular}{c c c c c l}
 \toprule
+\rowcolor{white}
 Query & $x$ & $y$ & $\mathrm{dist}(x)$ & $\mathrm{dist}(y)$ & Result \\
 \midrule
 1 & $(1,2)$ & $(3,2)$ & 1  & 5  & \textbf{true} \\
@@ -188,10 +224,11 @@ matrix (a row scan is always $O(n)$), so all of its traversals become $O(n^2)$.
 For brevity write $d_u=\deg(u)$ and $d_v=\deg(v)$.
 
 \begin{center}
-\small
-\setlength{\tabcolsep}{5pt}
+\rowcolors{2}{accent!6}{white}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{l c c c c}
 \toprule
+\rowcolor{white}
  & \textbf{SSSD$(u)$} & \textbf{CountCC$()$} & \textbf{CommonNeigh$(u,v)$} & \textbf{DFS$(u)$} \\
 \midrule
 1. Adjacency matrix & $O(n^2)$ & $O(n^2)$ & $O(n)$ & $O(n^2)$ \\
@@ -201,7 +238,8 @@ For brevity write $d_u=\deg(u)$ and $d_v=\deg(v)$.
 5. CSR & $O(n{+}m)$ & $O(n{+}m)$ & $O(d_u d_v)\,\ddagger$ & $O(n{+}m)$ \\
 6. Adjacency balanced BSTs & $O(n{+}m)$ & $O(n{+}m)$ & $O(\min(d_u,d_v)\,\log\max(d_u,d_v))\,\star$ & $O(n{+}m)$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{center}
 
 \noindent\textbf{Notes:}
@@ -239,13 +277,13 @@ For brevity write $d_u=\deg(u)$ and $d_v=\deg(v)$.
 \end{itemize}
 Equivalently: \textbf{remove $u$ and test whether $v$ is still reachable from $s$.}
 
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small]
 MustVisitBeforeDFS(G, s, u, v):
-    if v == s: return false          # s is always discovered first (time 0)
-    if u == s: return true           # s is always discovered first, hence before v
+    if v == s: return false   # s discovered first (time 0)
+    if u == s: return true    # s first, so discovered before v
 
     visited <- array[1..n] of false
-    visited[u] <- true               # "block" u so traversal never enters it
+    visited[u] <- true        # "block" u: traversal never enters it
 
     Q <- empty queue
     visited[s] <- true
@@ -262,7 +300,7 @@ MustVisitBeforeDFS(G, s, u, v):
         return true
     else:
         return false
-\end{verbatim}
+\end{Verbatim}
 
 \subsection*{(b) Time complexity}
 
@@ -277,8 +315,10 @@ F: D,E   G: C,H     H: G,I     I: H,C
 \end{verbatim}
 
 \begin{center}
-\begin{tabular}{l c c p{7.5cm} c}
+\rowcolors{2}{accent!6}{white}
+\begin{tabular}{l c c p{7.2cm} c}
 \toprule
+\rowcolor{white}
 Query & $u$ & $v$ & $v$ reachable from $A$ without $u$? & Result \\
 \midrule
 1. $(A,C,H)$ & $C$ & $H$ & No --- $\{G,H,I\}$ connect to the rest only via $C$ & \textbf{true} \\
@@ -289,7 +329,7 @@ Query & $u$ & $v$ & $v$ reachable from $A$ without $u$? & Result \\
 \end{tabular}
 \end{center}
 
-\noindent Answers: \textbf{true, false, true, false}.
+\answer{Query results: \textbf{true, false, true, false}.}
 
 %=====================================================================
 \section*{Q5. Longest path in a weighted DAG}
@@ -300,14 +340,14 @@ Topologically sort, then DP in \textbf{reverse} topological order, where
 $\mathrm{dist}[u]$ is the length of the longest path \emph{starting} at $u$, with
 $\mathrm{next}[u]$ for reconstruction.
 
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small]
 LongestPathDAG(G):
-    order <- TopologicalSort(G)               # vertices in topological order
+    order <- TopologicalSort(G)   # vertices in topological order
     for each v in V:
-        dist[v] <- 0                          # one-vertex path has length 0
+        dist[v] <- 0   # one-vertex path has length 0
         next[v] <- NULL
 
-    for i from |order|-1 downto 0:            # reverse topological order
+    for i from |order|-1 downto 0:   # reverse topological order
         u <- order[i]
         for each (v, w) in Adj[u]:
             if w + dist[v] > dist[u]:
@@ -317,7 +357,7 @@ LongestPathDAG(G):
     best   <- the vertex maximizing dist[.]
     length <- dist[best]
 
-    path <- empty list                        # reconstruct
+    path <- empty list   # reconstruct longest path
     x <- best
     while x != NULL:
         path.append(x)
@@ -325,7 +365,7 @@ LongestPathDAG(G):
     return (length, path)
 
 
-TopologicalSort(G):                           # Kahn's algorithm
+TopologicalSort(G):   # Kahn's algorithm
     compute indeg[v] for all v
     Q <- all v with indeg[v] = 0
     order <- empty list
@@ -336,7 +376,7 @@ TopologicalSort(G):                           # Kahn's algorithm
             indeg[v] <- indeg[v] - 1
             if indeg[v] = 0: Q.add(v)
     return order
-\end{verbatim}
+\end{Verbatim}
 
 \subsection*{(b) Time complexity}
 
@@ -347,22 +387,19 @@ $O(n)$. Total: $\boxed{O(n+m)}$.
 
 Topological order $A,B,C,D,E,F,G,H$; processing in reverse:
 \begin{verbatim}
-dist[H]=0
-dist[G]=2  (G->H,2)            next[G]=H
-dist[F]=3  (F->H,3)            next[F]=H
-dist[E]=7  (E->H,7 > E->G:1+2)  next[E]=H
-dist[D]=4  (D->G,2: 2+2)        next[D]=G
-dist[C]=12 (C->E,5: 5+7 > C->F: 4+3)   next[C]=E
-dist[B]=13 (B->E,6: 6+7 > B->D: 4+4)   next[B]=E
-dist[A]=16 (A->B,3: 3+13 > A->C: 2+12) next[A]=B
+dist[H] = 0
+dist[G] = 2    (G->H,2)                    next[G]=H
+dist[F] = 3    (F->H,3)                    next[F]=H
+dist[E] = 7    (E->H,7 > E->G:1+2)         next[E]=H
+dist[D] = 4    (D->G,2: 2+2)               next[D]=G
+dist[C] = 12   (C->E,5: 5+7 > C->F:4+3)    next[C]=E
+dist[B] = 13   (B->E,6: 6+7 > B->D:4+4)    next[B]=E
+dist[A] = 16   (A->B,3: 3+13 > A->C:2+12)  next[A]=B
 \end{verbatim}
 
 The maximum is $\mathrm{dist}[A]=16$. Reconstruct: $A\to B\to E\to H$
 ($3+6+7=16$).
 
-\begin{itemize}[nosep]
-  \item \textbf{Longest path length: 16}
-  \item \textbf{One longest path: $A\to B\to E\to H$}
-\end{itemize}
+\answer{\textbf{Longest path length $=16$}, achieved by $A\to B\to E\to H$ (edge weights $3+6+7$).}
 
 \end{document}
