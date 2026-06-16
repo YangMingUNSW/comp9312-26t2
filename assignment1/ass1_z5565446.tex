@@ -271,6 +271,7 @@ share the same cost --- only the per-vertex neighbour enumeration differs betwee
 \end{tabular}
 \end{center}
 
+\begin{minipage}{\linewidth}
 \noindent\textbf{Common-neighbour query.} This is the operation that distinguishes the
 structures, since it depends on each one's membership-test mechanism:
 \begin{center}
@@ -289,6 +290,7 @@ structures, since it depends on each one's membership-test mechanism:
 \bottomrule
 \end{tabular}
 \end{center}
+\end{minipage}
 
 \noindent\textbf{Notes:}
 \begin{itemize}[nosep]
@@ -328,6 +330,7 @@ The search below uses a queue, but it only tests reachability in $G\setminus\{u\
 any graph traversal (BFS \emph{or} DFS) works equally --- this is a reachability test,
 not a DFS simulation.
 
+\begin{minipage}{\linewidth}
 \begin{Verbatim}[fontsize=\small]
 MustVisitBeforeDFS(G, s, u, v):
     if v == s: return false   # s discovered first (time 0)
@@ -352,6 +355,7 @@ MustVisitBeforeDFS(G, s, u, v):
     else:
         return false
 \end{Verbatim}
+\end{minipage}
 
 \subsection*{(b) Time complexity}
 
