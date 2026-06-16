@@ -44,7 +44,7 @@
 \cfoot{\small\thepage}
 
 \title{\vspace{-1.2em}\textbf{COMP9312 --- Assignment 1 Solutions}}
-\author{}
+\author{YUHUI LUO \quad (z5565446)}
 \date{}
 
 \begin{document}
