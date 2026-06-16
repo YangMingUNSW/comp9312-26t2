@@ -185,39 +185,42 @@ Reasoning per operation:
 The only structure that cannot enumerate neighbours in $O(\deg)$ is the adjacency
 matrix (a row scan is always $O(n)$), so all of its traversals become $O(n^2)$.
 
+For brevity write $d_u=\deg(u)$ and $d_v=\deg(v)$.
+
 \begin{center}
-\resizebox{\textwidth}{!}{%
+\small
+\setlength{\tabcolsep}{5pt}
 \begin{tabular}{l c c c c}
 \toprule
  & \textbf{SSSD$(u)$} & \textbf{CountCC$()$} & \textbf{CommonNeigh$(u,v)$} & \textbf{DFS$(u)$} \\
 \midrule
 1. Adjacency matrix & $O(n^2)$ & $O(n^2)$ & $O(n)$ & $O(n^2)$ \\
-2. Adjacency arrays (unsorted) & $O(n+m)$ & $O(n+m)$ & $O(\deg(u)\cdot\deg(v))$ & $O(n+m)$ \\
-3. Sorted adjacency arrays & $O(n+m)$ & $O(n+m)$ & $O(\deg(u)+\deg(v))$ & $O(n+m)$ \\
-4. Hash-set adjacency lists & $O(n+m)$ & $O(n+m)$ & $O(\min(\deg(u),\deg(v)))\,\dagger$ & $O(n+m)$ \\
-5. CSR & $O(n+m)$ & $O(n+m)$ & $O(\deg(u)\cdot\deg(v))\,\ddagger$ & $O(n+m)$ \\
-6. Adjacency balanced BSTs & $O(n+m)$ & $O(n+m)$ & $O(\min(\deg(u),\deg(v))\cdot\log\max(\deg(u),\deg(v)))\,\star$ & $O(n+m)$ \\
+2. Adjacency arrays (unsorted) & $O(n{+}m)$ & $O(n{+}m)$ & $O(d_u d_v)$ & $O(n{+}m)$ \\
+3. Sorted adjacency arrays & $O(n{+}m)$ & $O(n{+}m)$ & $O(d_u{+}d_v)$ & $O(n{+}m)$ \\
+4. Hash-set adjacency lists & $O(n{+}m)$ & $O(n{+}m)$ & $O(\min(d_u,d_v))\,\dagger$ & $O(n{+}m)$ \\
+5. CSR & $O(n{+}m)$ & $O(n{+}m)$ & $O(d_u d_v)\,\ddagger$ & $O(n{+}m)$ \\
+6. Adjacency balanced BSTs & $O(n{+}m)$ & $O(n{+}m)$ & $O(\min(d_u,d_v)\,\log\max(d_u,d_v))\,\star$ & $O(n{+}m)$ \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{center}
 
 \noindent\textbf{Notes:}
 \begin{itemize}[nosep]
   \item \textbf{Matrix CommonNeighbours $=O(n)$:} scan $w=1\ldots n$, test $M[u][w]\wedge M[v][w]$.
   \item \textbf{Unsorted arrays / CSR:} for each of $u$'s neighbours, a membership test in
-    $v$'s list is a linear scan $O(\deg(v))\Rightarrow O(\deg(u)\cdot\deg(v))$.
-  \item \textbf{Sorted arrays:} merge the two sorted neighbour lists $\Rightarrow O(\deg(u)+\deg(v))$.
+    $v$'s list is a linear scan $O(d_v)\Rightarrow O(d_u d_v)$.
+  \item \textbf{Sorted arrays:} merge the two sorted neighbour lists $\Rightarrow O(d_u+d_v)$.
   \item \textbf{Hash sets (traversals):} worst-case $O(n+m)$ --- BFS/DFS only \emph{iterate}
     each neighbour set ($O(\deg)$) and test the vertex-indexed \texttt{visited} array ($O(1)$);
     no hashing lookups are involved.
   \item $\dagger$ \textbf{Hash sets (CommonNeighbours):} iterate the smaller set and do
-    $O(1)$-expected lookups in the larger $\Rightarrow O(\min(\deg(u),\deg(v)))$
+    $O(1)$-expected lookups in the larger $\Rightarrow O(\min(d_u,d_v))$
     \emph{expected} (the only operation that relies on hashing).
   \item $\ddagger$ \textbf{CSR:} assuming the neighbour array is stored unsorted, membership
-    is a linear scan $\Rightarrow O(\deg(u)\cdot\deg(v))$.
+    is a linear scan $\Rightarrow O(d_u d_v)$.
   \item $\star$ \textbf{Balanced BST:} iterate the smaller neighbour set and search each
     element in the larger tree ($O(\log)$ per search) $\Rightarrow
-    O(\min(\deg(u),\deg(v))\cdot\log\max(\deg(u),\deg(v)))$.
+    O(\min(d_u,d_v)\,\log\max(d_u,d_v))$.
 \end{itemize}
 
 %=====================================================================
