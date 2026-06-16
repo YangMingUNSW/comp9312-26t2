@@ -65,16 +65,16 @@
 %=====================================================================
 \section*{Q1. Disjoint-set forests for connected components}
 
-\textbf{\color{accent!85!black}Setup.} Union by size: the larger tree's root stays as
+\noindent\textbf{\color{accent!85!black}Setup.} Union by size: the larger tree's root stays as
 the root, and the smaller tree's root is attached under it.
 
-\textbf{\color{accent!85!black}Tie-break.} When both trees have equal size, the tree
+\noindent\textbf{\color{accent!85!black}Tie-break.} When both trees have equal size, the tree
 whose root is \emph{lexicographically smaller} is treated as larger, so its root
 becomes the new root.
 
-\textbf{\color{accent!85!black}Path compression.} Not applied.
+\noindent\textbf{\color{accent!85!black}Path compression.} Not applied.
 
-\textbf{\color{accent!85!black}Notation.} Each node is a set element; a root is labelled
+\noindent\textbf{\color{accent!85!black}Notation.} Each node is a set element; a root is labelled
 \texttt{root\,(size)} and its
 children hang below it. Initially eight singletons $A,B,C,D,E,F,G,H$, each of size $1$.
 Each drawing shows only the non-trivial trees; any vertex not shown remains an isolated
