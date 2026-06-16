@@ -76,23 +76,30 @@ Each drawing shows only the non-trivial trees; any vertex not shown remains an i
 singleton.
 
 \medskip
-\textbf{Edge 1: B--C} --- both size $1$, tie $\Rightarrow$ smaller root $B$ wins.
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 1: B--C} --- both size $1$, tie $\Rightarrow$ smaller root $B$ wins.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(2)} [{$C$}]]
 \end{forest}
 \end{center}
-Components: $\{B,C\}$; singletons $A,D,E,F,G,H$.
+\noindent Components: $\{B,C\}$; singletons $A,D,E,F,G,H$.
+\end{minipage}
 
-\textbf{Edge 2: A--C} --- $A$ (size $1$) vs.\ tree rooted $B$ (size $2$); $B$ larger.
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 2: A--C} --- $A$ (size $1$) vs.\ tree rooted $B$ (size $2$); $B$ larger.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(3)} [{$C$}] [{$A$}]]
 \end{forest}
 \end{center}
-Components: $\{A,B,C\}$; singletons $D,E,F,G,H$.
+\noindent Components: $\{A,B,C\}$; singletons $D,E,F,G,H$.
+\end{minipage}
 
-\textbf{Edge 3: D--E} --- both size $1$, tie $\Rightarrow$ smaller root $D$ wins.
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 3: D--E} --- both size $1$, tie $\Rightarrow$ smaller root $D$ wins.
 \begin{center}
 \begin{minipage}[t]{0.46\textwidth}\centering
 \begin{forest} dsf
@@ -105,18 +112,24 @@ Components: $\{A,B,C\}$; singletons $D,E,F,G,H$.
 \end{forest}
 \end{minipage}
 \end{center}
-Components: $\{A,B,C\}$, $\{D,E\}$; singletons $F,G,H$.
+\noindent Components: $\{A,B,C\}$, $\{D,E\}$; singletons $F,G,H$.
+\end{minipage}
 
-\textbf{Edge 4: C--E} --- tree $B$ (size $3$) vs.\ tree $D$ (size $2$); $B$ larger,
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 4: C--E} --- tree $B$ (size $3$) vs.\ tree $D$ (size $2$); $B$ larger,
 so $D$ attaches to $B$.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(5)} [{$C$}] [{$A$}] [{$D$} [{$E$}]]]
 \end{forest}
 \end{center}
-Components: $\{A,B,C,D,E\}$; singletons $F,G,H$.
+\noindent Components: $\{A,B,C,D,E\}$; singletons $F,G,H$.
+\end{minipage}
 
-\textbf{Edge 5: F--G} --- both size $1$, tie $\Rightarrow$ smaller root $F$ wins.
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 5: F--G} --- both size $1$, tie $\Rightarrow$ smaller root $F$ wins.
 \begin{center}
 \begin{minipage}[t]{0.6\textwidth}\centering
 \begin{forest} dsf
@@ -129,33 +142,43 @@ Components: $\{A,B,C,D,E\}$; singletons $F,G,H$.
 \end{forest}
 \end{minipage}
 \end{center}
-Components: $\{A,B,C,D,E\}$, $\{F,G\}$; singleton $H$.
+\noindent Components: $\{A,B,C,D,E\}$, $\{F,G\}$; singleton $H$.
+\end{minipage}
 
-\textbf{Edge 6: E--G} --- tree $B$ (size $5$) vs.\ tree $F$ (size $2$); $F$ attaches
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 6: E--G} --- tree $B$ (size $5$) vs.\ tree $F$ (size $2$); $F$ attaches
 to $B$.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(7)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]]]
 \end{forest}
 \end{center}
-Components: $\{A,B,C,D,E,F,G\}$; singleton $H$.
+\noindent Components: $\{A,B,C,D,E,F,G\}$; singleton $H$.
+\end{minipage}
 
-\textbf{Edge 7: H--F} --- tree $B$ (size $7$) vs.\ $H$ (size $1$); $H$ attaches to $B$.
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 7: H--F} --- tree $B$ (size $7$) vs.\ $H$ (size $1$); $H$ attaches to $B$.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(8)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]] [{$H$}]]
 \end{forest}
 \end{center}
-Components: $\{A,B,C,D,E,F,G,H\}$ --- a single component.
+\noindent Components: $\{A,B,C,D,E,F,G,H\}$ --- a single component.
+\end{minipage}
 
-\textbf{Edge 8: G--H} --- $\mathrm{find}(G)=\mathrm{find}(H)=B$: already in the same
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\noindent\textbf{Edge 8: G--H} --- $\mathrm{find}(G)=\mathrm{find}(H)=B$: already in the same
 set $\Rightarrow$ \textbf{no change}; the forest is identical to that after Edge~7.
 \begin{center}
 \begin{forest} dsf
 [{$B$\,(8)} [{$C$}] [{$A$}] [{$D$} [{$E$}]] [{$F$} [{$G$}]] [{$H$}]]
 \end{forest}
 \end{center}
-Components: $\{A,B,C,D,E,F,G,H\}$ --- unchanged (still one component).
+\noindent Components: $\{A,B,C,D,E,F,G,H\}$ --- unchanged (still one component).
+\end{minipage}
 
 \answer{All eight elements end up in a single connected component: one tree of size~$8$ rooted at $B$, as shown after Edge~7.}
 
@@ -284,9 +307,9 @@ structures, since it depends on each one's membership-test mechanism:
 1. Adjacency matrix & $O(n)$ \\
 2. Adjacency arrays (unsorted) & $O(d_u d_v)$ \\
 3. Sorted adjacency arrays & $O(d_u+d_v)$ \\
-4. Hash-set adjacency lists & $O(\min(d_u,d_v))$ \quad $\dagger$ \\
-5. CSR & $O(d_u d_v)$ \quad $\ddagger$ \\
-6. Adjacency balanced BSTs & $O(\min(d_u,d_v)\,\log\max(d_u,d_v))$ \quad $\star$ \\
+4. Hash-set adjacency lists & $O(\min(d_u,d_v))$ \\
+5. CSR & $O(d_u d_v)$ \\
+6. Adjacency balanced BSTs & $O(\min(d_u,d_v)\,\log\max(d_u,d_v))$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -301,12 +324,10 @@ structures, since it depends on each one's membership-test mechanism:
   \item \textbf{Hash sets (traversals):} worst-case $O(n+m)$ --- BFS/DFS only \emph{iterate}
     each neighbour set ($O(\deg)$) and test the vertex-indexed \texttt{visited} array ($O(1)$);
     no hashing lookups are involved.
-  \item $\dagger$ \textbf{Hash sets (CommonNeighbours):} iterate the smaller set and do
+  \item \textbf{Hash sets (CommonNeighbours):} iterate the smaller set and do
     $O(1)$-expected lookups in the larger $\Rightarrow O(\min(d_u,d_v))$
     \emph{expected} (the only operation that relies on hashing).
-  \item $\ddagger$ \textbf{CSR:} assuming the neighbour array is stored unsorted, membership
-    is a linear scan $\Rightarrow O(d_u d_v)$.
-  \item $\star$ \textbf{Balanced BST:} iterate the smaller neighbour set and search each
+  \item \textbf{Balanced BST (CommonNeighbours):} iterate the smaller neighbour set and search each
     element in the larger tree ($O(\log)$ per search) $\Rightarrow
     O(\min(d_u,d_v)\,\log\max(d_u,d_v))$.
 \end{itemize}
@@ -371,15 +392,15 @@ F: D,E   G: C,H     H: G,I     I: H,C
 
 \begin{center}
 \rowcolors{2}{accent!6}{white}
-\begin{tabular}{l c c p{7.2cm} c}
+\begin{tabular}{l c c c p{6.4cm}}
 \toprule
 \rowcolor{white}
-Query & $u$ & $v$ & $v$ reachable from $A$ without $u$? & Result \\
+Query & $u$ & $v$ & Result & Why? ($v$ reachable from $A$ without $u$) \\
 \midrule
-1. $(A,C,H)$ & $C$ & $H$ & No --- $\{G,H,I\}$ connect to the rest only via $C$ & \textbf{true} \\
-2. $(A,D,E)$ & $D$ & $E$ & Yes --- via $A$--$B$--$E$ & \textbf{false} \\
-3. $(A,B,F)$ & $B$ & $F$ & No --- $\{D,E,F\}$ connect to the rest only via $B$ & \textbf{true} \\
-4. $(A,H,G)$ & $H$ & $G$ & Yes --- via $A$--$C$--$G$ & \textbf{false} \\
+1. $(A,C,H)$ & $C$ & $H$ & \textbf{true}  & No --- $\{G,H,I\}$ reach the rest only via $C$ \\
+2. $(A,D,E)$ & $D$ & $E$ & \textbf{false} & Yes --- $A$--$B$--$E$ avoids $D$ \\
+3. $(A,B,F)$ & $B$ & $F$ & \textbf{true}  & No --- $\{D,E,F\}$ reach the rest only via $B$ \\
+4. $(A,H,G)$ & $H$ & $G$ & \textbf{false} & Yes --- $A$--$C$--$G$ avoids $H$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -395,6 +416,7 @@ Topologically sort, then DP in \textbf{reverse} topological order, where
 $\mathrm{dist}[u]$ is the length of the longest path \emph{starting} at $u$, with
 $\mathrm{next}[u]$ for reconstruction.
 
+\begin{minipage}{\linewidth}
 \begin{Verbatim}[fontsize=\small]
 LongestPathDAG(G):
     order <- TopologicalSort(G)   # vertices in topological order
@@ -418,8 +440,12 @@ LongestPathDAG(G):
         path.append(x)
         x <- next[x]
     return (length, path)
+\end{Verbatim}
+\end{minipage}
 
-
+\medskip
+\begin{minipage}{\linewidth}
+\begin{Verbatim}[fontsize=\small]
 TopologicalSort(G):   # Kahn's algorithm
     compute indeg[v] for all v
     Q <- all v with indeg[v] = 0
@@ -432,6 +458,7 @@ TopologicalSort(G):   # Kahn's algorithm
             if indeg[v] = 0: Q.add(v)
     return order
 \end{Verbatim}
+\end{minipage}
 
 \subsection*{(b) Time complexity}
 
