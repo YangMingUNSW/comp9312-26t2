@@ -194,35 +194,34 @@ processing is $O(n)$ rather than $O(n+m)$.
 class FirstCycleEdgeQuery:
     def query(self, n, L):
         parent = list(range(n)); rank = [0] * n
-        forest = [[] for _ in range(n)]        # spanning forest (accepted edges)
+        tree = [[] for _ in range(n)]           # accepted edges = spanning forest
 
-        def find(x):                            # iterative path compression
+        def find(x):
             root = x
             while parent[root] != root: root = parent[root]
-            while parent[x] != root: parent[x], x = root, parent[x]
+            while parent[x] != root: parent[x], x = root, parent[x]  # compress
             return root
 
         for u, v in L:
             ru, rv = find(u), find(v)
-            if ru == rv:                        # u, v already connected -> cycle
-                return [[u, v], self._recover_cycle(forest, u, v)]
-            forest[u].append(v); forest[v].append(u)   # accept edge
-            if rank[ru] < rank[rv]: ru, rv = rv, ru     # union by rank
+            if ru == rv:                         # u, v already connected -> cycle
+                return [[u, v], self._cycle(tree, u, v)]
+            tree[u].append(v); tree[v].append(u)
+            if rank[ru] < rank[rv]: ru, rv = rv, ru
             parent[rv] = ru
             if rank[ru] == rank[rv]: rank[ru] += 1
         return None
 
-    def _recover_cycle(self, forest, u, v):
-        from collections import deque
+    def _cycle(self, tree, u, v):                # BFS the tree path u..v, close it
         prev = {u: u}; q = deque([u])
-        while q:                                # BFS in the forest: u -> ... -> v
+        while q:
             x = q.popleft()
             if x == v: break
-            for y in forest[x]:
+            for y in tree[x]:
                 if y not in prev: prev[y] = x; q.append(y)
         path = [v]
         while path[-1] != u: path.append(prev[path[-1]])
-        path.reverse(); path.append(u)          # [u, ..., v, u]
+        path.reverse(); path.append(u)           # [u, ..., v, u]
         return path
 \end{lstlisting}
 

@@ -81,11 +81,11 @@ lowest-rank vertex, by intersecting forward-neighbour lists. Cost:
 
 `build()` stores:
 - `tc[v]` for every vertex — `O(n)`.
-- `edge_level[]`, laid out **parallel to** `graph.indices` (the flat adjacency
+- `level[]`, laid out **parallel to** `graph.indices` (the flat adjacency
   array), so a query is a plain threshold DFS — `O(m)`.
 
 `query(k, v)` returns `[]` if `tc(v) < k`; otherwise it DFS/BFS from `v`, crossing
-only edges with `edge_level ≥ k` (whose endpoints automatically have `tc ≥ k`),
+only edges with `level ≥ k` (whose endpoints automatically have `tc ≥ k`),
 and returns the visited set.
 
 ### Worked example (spec Figure 1)
@@ -137,6 +137,6 @@ returned vertices adds `O(|C|·log|C|)` for a canonical order. Both terms are
 output-linear and bounded above by `O(n + m)`.
 
 ### Space — `O(n + m)`
-The persistent index is `tc[]` (`O(n)`) plus `edge_level[]` (`O(m)`), i.e.
+The persistent index is `tc[]` (`O(n)`) plus `level[]` (`O(m)`), i.e.
 `O(n + m)`. Construction additionally uses `O(n + T)` transient memory
 (triangle list and per-vertex incidence), which can be released after `build()`.

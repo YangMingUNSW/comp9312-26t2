@@ -165,12 +165,12 @@ vertex, in $\sum_{(u,w)\in E}\min\!\big(d(u),d(w)\big)=O(m^{1.5})$ time.
 \textsf{build()} stores two arrays:
 \begin{itemize}[leftmargin=1.4em, itemsep=2pt]
   \item $tc[v]$ for every vertex --- $O(n)$;
-  \item \texttt{edge\_level[\,]}, laid out \emph{parallel to}
+  \item \texttt{level[\,]}, laid out \emph{parallel to}
   \texttt{graph.indices} (the flat adjacency array), so that a query is a plain
   threshold traversal --- $O(m)$.
 \end{itemize}
 $\textsf{query}(k,v)$ returns $[\,]$ if $tc(v)<k$; otherwise it runs a DFS from
-$v$ that crosses only edges with $\texttt{edge\_level}\ge k$ (whose endpoints
+$v$ that crosses only edges with $\texttt{level}\ge k$ (whose endpoints
 then automatically satisfy $tc\ge k$) and returns the visited set.
 
 \subsection{Worked Example (Figure~\ref{fig:g1})}
@@ -237,7 +237,7 @@ has degree $\ge 2$), so the query is effectively output-linear and $O(n+m)$ in
 the worst case. The initial $tc(v)<k$ rejection is $O(1)$.
 
 \subsection{Space: $O(n+m)$}
-The persistent index is $tc[\,]$ ($O(n)$) plus \texttt{edge\_level[\,]} ($O(m)$),
+The persistent index is $tc[\,]$ ($O(n)$) plus \texttt{level[\,]} ($O(m)$),
 so $O(n+m)$. Construction additionally uses $O(n+T)$ transient memory (the
 triangle list and per-vertex triangle incidence), which may be released once
 \textsf{build()} finishes.
@@ -246,32 +246,30 @@ triangle list and per-vertex triangle incidence), which may be released once
 \section{Key Implementation Excerpt}
 \begin{lstlisting}[style=py]
 # --- peeling: tc(v) via Batagelj-Zaversnik buckets on triangle counts ---
-for idx in range(n):
-    v = vert[idx]; level = d[v]; tc[v] = level      # smallest remaining count
-    for ti in vtri[v]:                              # triangles through v
-        if not alive_tri[ti]: continue
-        alive_tri[ti] = 0                           # destroyed together with v
-        a, b, c = triangles[ti]
-        for w in (a, b, c):
+for i in range(n):
+    v = order[i]; lvl = d[v]; tc[v] = lvl            # smallest remaining count
+    for t in tri_of[v]:                              # triangles through v
+        if not alive[t]: continue
+        alive[t] = 0                                 # triangle dies with v
+        for w in triangles[t]:
             dw = d[w]
-            if w == v or dw <= level: continue       # skip finalised vertices
-            # move w one bucket down (O(1))
-            pw = pos[w]; ps = bin_[dw]; fw = vert[ps]
-            if fw != w:
-                vert[pw] = fw; vert[ps] = w; pos[fw] = pw; pos[w] = ps
-            bin_[dw] += 1; d[w] = dw - 1
+            if w == v or dw <= lvl: continue          # w already fixed, leave it
+            p, s = pos[w], head[dw]                    # move w one bucket down
+            f = order[s]
+            if f != w:
+                order[p], order[s] = f, w; pos[f], pos[w] = p, s
+            head[dw] += 1; d[w] = dw - 1
 
 # --- query: threshold DFS over edge levels ---
 def query(self, k, v):
     if self.tc[v] < k: return []
-    off, idx, lvl = self.graph.offsets, self.graph.indices, self.edge_level
+    off, adj, level = self.graph.offsets, self.graph.indices, self.level
     seen = {v}; stack = [v]
     while stack:
         x = stack.pop()
         for i in range(off[x], off[x + 1]):
-            if lvl[i] >= k:
-                w = idx[i]
-                if w not in seen: seen.add(w); stack.append(w)
+            if level[i] >= k and adj[i] not in seen:
+                seen.add(adj[i]); stack.append(adj[i])
     return sorted(seen)          # canonical (ascending) vertex order
 \end{lstlisting}
 
