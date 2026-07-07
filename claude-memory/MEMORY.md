@@ -5,3 +5,4 @@
 - [Sync memory to repo](sync-memory-to-repo.md) — mirror CC memory files into the repo's `claude-memory/` for cross-platform memory continuity.
 - [Auto-push after changes](auto-push-after-changes.md) — commit + push to GitHub after every code/file change so the user can trace/rollback/debug.
 - [Readability first](readability-first.md) — optimise for the final human-graded PDF; user iterates the Overleaf render, so prefer the most readable presentation over the lowest-compile-risk one.
+- [Project solutions](project-solutions.md) — COMP9312 26T2 project: Q1 first cycle edge (union-find), Q2 k-triangle core (triangle-core peeling + edge-level DFS); triangle-connectivity subtlety.
