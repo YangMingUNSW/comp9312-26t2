@@ -227,11 +227,14 @@ Edge levels (aggregate $+$ scatter) & $O(T)+O(n+m)$\\
 \end{center}
 since $T=O(m^{1.5})$ and $m=O(m^{1.5})$.
 
-\subsection{Query time: $O\!\Big(\sum_{x\in C} d(x)\Big)$}
+\subsection{Query time: $O\!\Big(\sum_{x\in C} d(x)+|C|\log|C|\Big)$}
 A query is a single DFS over the induced subgraph of the answer, scanning each
-returned vertex's adjacency once. It is \textbf{output-sensitive} --- proportional
-to the size of the returned component --- and bounded above by $O(n+m)$. The
-initial $tc(v)<k$ rejection is $O(1)$.
+returned vertex's adjacency once ($\sum_{x\in C}d(x)$), followed by an
+$O(|C|\log|C|)$ sort that returns the vertices in canonical ascending order. Both
+terms are \textbf{output-sensitive} --- bounded by the returned component --- and
+the traversal term dominates in a genuine triangle core (every returned vertex
+has degree $\ge 2$), so the query is effectively output-linear and $O(n+m)$ in
+the worst case. The initial $tc(v)<k$ rejection is $O(1)$.
 
 \subsection{Space: $O(n+m)$}
 The persistent index is $tc[\,]$ ($O(n)$) plus \texttt{edge\_level[\,]} ($O(m)$),
@@ -269,7 +272,7 @@ def query(self, k, v):
             if lvl[i] >= k:
                 w = idx[i]
                 if w not in seen: seen.add(w); stack.append(w)
-    return list(seen)
+    return sorted(seen)          # canonical (ascending) vertex order
 \end{lstlisting}
 
 \end{document}

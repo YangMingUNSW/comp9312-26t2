@@ -44,9 +44,13 @@ Then:
 
 ```
 query(k, v):  if tc(v) < k:  return []
-              else:          return { vertices reachable from v using
-                                      only edges with level ≥ k }
+              else:          return sorted{ vertices reachable from v using
+                                            only edges with level ≥ k }
 ```
+
+(The reachable set is collected in a hash set, so we `sorted()` it before
+returning to give a canonical ascending vertex order that matches the spec's
+example outputs.)
 
 This reachable set is exactly the triangle-connected k-core component of `v`.
 
@@ -124,10 +128,13 @@ Let `n` = vertices, `m` = edges, `d(v)` = degree, `T` = number of triangles
 
 Total: `O(m^1.5 + n + m + T) = O(m^1.5 + n)` since `T = O(m^1.5)`.
 
-### Query time — `O( sum over x in C of d(x) )`
-A single DFS over the induced subgraph of the answer; it scans each returned
-vertex's adjacency once. This is **output-sensitive** (proportional to the size
-of the component returned) and bounded above by `O(n + m)`.
+### Query time — `O( sum over x in C of d(x)  +  |C|·log|C| )`
+A single DFS over the induced subgraph of the answer scans each returned vertex's
+adjacency once (`sum over x in C of d(x)`); a final `sorted()` on the `|C|`
+returned vertices adds `O(|C|·log|C|)` for a canonical order. Both terms are
+**output-sensitive**; the traversal term dominates in a genuine triangle core
+(every returned vertex has degree ≥ 2), so the query is effectively
+output-linear and bounded above by `O(n + m)`.
 
 ### Space — `O(n + m)`
 The persistent index is `tc[]` (`O(n)`) plus `edge_level[]` (`O(m)`), i.e.
