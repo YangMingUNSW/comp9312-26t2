@@ -81,7 +81,7 @@ In the graph below, the labels on the edges show the insertion order. The sixth 
 
 0 1 2 3 4 5 1 2 4 3 5 6 First cycle: 5 - 4 - 3 - 2 - 1 - 0 - 5
 
-Figure reference: Q1 figure (`assets/q1-figure.png`).
+Figure reference: Q1 figure (`assets/Q1_figure.png`).
 
 ### Machine-Readable Graph Spec (YAML)
 
@@ -205,7 +205,7 @@ Design an index-based solution for`k`-triangle core search.
 
 Figure 1 shows a connected graph.
 
-Figure reference: Q2 figure (`assets/q2-figure.png`).
+Figure reference: Q2 figure (`assets/Q2_figure.png`).
 
 ### Machine-Readable Graph Spec (YAML)
 

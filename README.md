@@ -31,6 +31,8 @@ LaTeX source ready for Overleaf.
 | --- | --- |
 | [`assignment1/`](assignment1/) | **Assignment 1** — disjoint sets, BFS, graph representations, DFS order, DAG longest path.<br>**作业一** — 并查集、BFS、图的表示、DFS 序、DAG 最长路径。<br>题面 `ass1.md`,解答 `ass1_solution.md`,提交版 `ass1_z5565446.tex` / `.pdf`。 |
 | [`project/`](project/) | **Project** — Q1 first cycle-causing edge in an insertion stream (union-find); Q2 index-based k-triangle core search (triangle-core peeling + edge-level DFS).<br>**项目** — Q1 边插入流中的首个成环边（并查集）；Q2 基于索引的 k-triangle core 查询（三角核剥离 + 边层级 DFS）。<br>提交版 `Q1.ipynb`/`Q1.tex`、`Q2.ipynb`/`Q2.tex`,解答 `Q*_solution.md`,题面 `spec.md`。 |
+| [`project/templates/`](project/templates/) | Course-provided starter notebooks, kept unmodified for reference.<br>课程给的代码模板 `Q1_template.ipynb` / `Q2_template.ipynb`,保持原样以便对照。 |
+| [`project/assets/`](project/assets/) | Figures referenced by `spec.md`.<br>`spec.md` 引用的插图 `Q1_figure.png` / `Q2_figure.png`。 |
 | [`claude-memory/`](claude-memory/) | Claude Code 跨机记忆镜像(见下方说明)。 |
 
 > 后续作业 / 项目会以新的顶层文件夹形式加入(如 `assignment2/`)。
