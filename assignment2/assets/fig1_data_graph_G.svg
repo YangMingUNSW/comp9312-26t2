@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 310" role="img" aria-label="Data graph G with vertices A through G">
+  <style>
+    .graph-svg { background: #fff; }
+    .graph-edge { stroke: #6c757d; stroke-width: 2.4; stroke-linecap: round; }
+    .directed-edge { fill: none; stroke: #495057; stroke-width: 2.2;
+                     stroke-linecap: round; stroke-linejoin: round; }
+    .tree-edge { fill: none; stroke: #212529; stroke-width: 2.2; }
+    .graph-node, .tree-node { fill: #fff; stroke: #212529; stroke-width: 2.2; }
+    .graph-label { font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+                   font-size: 18px; font-weight: 700; text-anchor: middle;
+                   dominant-baseline: central; }
+    .graph-note { font-size: 13px; fill: #6c757d; text-anchor: middle; }
+  </style>
+
+          <line class="graph-edge" x1="80" y1="155" x2="185" y2="75" />
+          <line class="graph-edge" x1="80" y1="155" x2="185" y2="235" />
+          <line class="graph-edge" x1="185" y1="75" x2="185" y2="235" />
+          <line class="graph-edge" x1="185" y1="75" x2="330" y2="155" />
+          <line class="graph-edge" x1="185" y1="235" x2="330" y2="155" />
+          <line class="graph-edge" x1="330" y1="155" x2="480" y2="75" />
+          <line class="graph-edge" x1="330" y1="155" x2="480" y2="235" />
+          <line class="graph-edge" x1="480" y1="75" x2="480" y2="235" />
+          <line class="graph-edge" x1="480" y1="75" x2="610" y2="75" />
+
+          <circle class="graph-node" cx="80" cy="155" r="22" /><text class="graph-label" x="80" y="155">A</text>
+          <circle class="graph-node" cx="185" cy="75" r="22" /><text class="graph-label" x="185" y="75">B</text>
+          <circle class="graph-node" cx="185" cy="235" r="22" /><text class="graph-label" x="185" y="235">C</text>
+          <circle class="graph-node" cx="330" cy="155" r="22" /><text class="graph-label" x="330" y="155">D</text>
+          <circle class="graph-node" cx="480" cy="75" r="22" /><text class="graph-label" x="480" y="75">E</text>
+          <circle class="graph-node" cx="480" cy="235" r="22" /><text class="graph-label" x="480" y="235">F</text>
+          <circle class="graph-node" cx="610" cy="75" r="22" /><text class="graph-label" x="610" y="75">G</text>
+          <text class="graph-note" x="350" y="290">Figure 1: data graph G</text>
+        </svg>

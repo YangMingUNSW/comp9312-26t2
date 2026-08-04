@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 515 480" role="img" aria-label="Tree 1, a branching spanning tree">
+  <style>
+    .graph-svg { background: #fff; }
+    .graph-edge { stroke: #6c757d; stroke-width: 2.4; stroke-linecap: round; }
+    .directed-edge { fill: none; stroke: #495057; stroke-width: 2.2;
+                     stroke-linecap: round; stroke-linejoin: round; }
+    .tree-edge { fill: none; stroke: #212529; stroke-width: 2.2; }
+    .graph-node, .tree-node { fill: #fff; stroke: #212529; stroke-width: 2.2; }
+    .graph-label { font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+                   font-size: 18px; font-weight: 700; text-anchor: middle;
+                   dominant-baseline: central; }
+    .graph-note { font-size: 13px; fill: #6c757d; text-anchor: middle; }
+  </style>
+
+            <defs>
+              <marker id="tree1-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#212529" />
+              </marker>
+            </defs>
+
+            <line class="tree-edge" x1="220.3" y1="48.5" x2="103.4" y2="111.5" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="231.6" y1="57.4" x2="219.6" y2="102.6" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="252.5" y1="47.7" x2="389.9" y2="112.3" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="79.1" y1="135.9" x2="53.4" y2="184.1" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="95.9" y1="135.9" x2="121.6" y2="184.1" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="215" y1="138" x2="215" y2="182" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="406.2" y1="138" x2="406.2" y2="182" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="45" y1="218" x2="45" y2="262" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="395" y1="214.1" x2="353.7" y2="265.9" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="417.4" y1="214.1" x2="458.8" y2="265.9" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="334.1" y1="295.9" x2="308.4" y2="344.1" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="350.9" y1="295.9" x2="376.6" y2="344.1" marker-end="url(#tree1-arrow)" />
+            <line class="tree-edge" x1="300" y1="378" x2="300" y2="422" marker-end="url(#tree1-arrow)" />
+
+            <circle class="tree-node" cx="236.2" cy="40" r="18" /><text class="graph-label" x="236.2" y="40">1</text>
+            <circle class="tree-node" cx="87.5" cy="120" r="18" /><text class="graph-label" x="87.5" y="120">2</text>
+            <circle class="tree-node" cx="215" cy="120" r="18" /><text class="graph-label" x="215" y="120">3</text>
+            <circle class="tree-node" cx="406.2" cy="120" r="18" /><text class="graph-label" x="406.2" y="120">4</text>
+            <circle class="tree-node" cx="45" cy="200" r="18" /><text class="graph-label" x="45" y="200">5</text>
+            <circle class="tree-node" cx="130" cy="200" r="18" /><text class="graph-label" x="130" y="200">6</text>
+            <circle class="tree-node" cx="215" cy="200" r="18" /><text class="graph-label" x="215" y="200">7</text>
+            <circle class="tree-node" cx="406.2" cy="200" r="18" /><text class="graph-label" x="406.2" y="200">8</text>
+            <circle class="tree-node" cx="45" cy="280" r="18" /><text class="graph-label" x="45" y="280">9</text>
+            <circle class="tree-node" cx="342.5" cy="280" r="18" /><text class="graph-label" x="342.5" y="280">10</text>
+            <circle class="tree-node" cx="470" cy="280" r="18" /><text class="graph-label" x="470" y="280">11</text>
+            <circle class="tree-node" cx="300" cy="360" r="18" /><text class="graph-label" x="300" y="360">12</text>
+            <circle class="tree-node" cx="385" cy="360" r="18" /><text class="graph-label" x="385" y="360">13</text>
+            <circle class="tree-node" cx="300" cy="440" r="18" /><text class="graph-label" x="300" y="440">14</text>
+          </svg>
