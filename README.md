@@ -30,12 +30,14 @@ LaTeX source ready for Overleaf.
 | Folder · 文件夹 | Contents · 内容 |
 | --- | --- |
 | [`assignment1/`](assignment1/) | **Assignment 1** — disjoint sets, BFS, graph representations, DFS order, DAG longest path.<br>**作业一** — 并查集、BFS、图的表示、DFS 序、DAG 最长路径。<br>题面 `ass1.md`,解答 `ass1_solution.md`,提交版 `ass1_z5565446.tex` / `.pdf`。 |
+| [`assignment2/`](assignment2/) | **Assignment 2** — graph homomorphism & induced subgraph matching, Weisfeiler-Lehman kernel, reachability indexing (minimal 2-hop labelling + tree cover), one-layer GNN.<br>**作业二** — 图同态与诱导子图匹配、WL 图核、可达性索引（最小 2-hop 标签 + tree cover）、单层 GNN。<br>题面 `ass2.md`（中英双语 + 每张图的 YAML 图谱），解答 `ass2_solution.md`，提交版 `ass2_z5565446.tex` / `.pdf`。 |
+| [`assignment2/assets/`](assignment2/assets/) | The seven question figures, lifted from the course page as standalone SVG.<br>题面的 7 张插图，从课程网页的内联 SVG 抽出来存为独立文件。 |
 | [`project/`](project/) | **Project** — Q1 first cycle-causing edge in an insertion stream (union-find); Q2 index-based k-triangle core search (triangle-core peeling + edge-level DFS).<br>**项目** — Q1 边插入流中的首个成环边（并查集）；Q2 基于索引的 k-triangle core 查询（三角核剥离 + 边层级 DFS）。<br>提交版 `Q1.ipynb`/`Q1.tex`、`Q2.ipynb`/`Q2.tex`,解答 `Q*_solution.md`,题面 `spec.md`。 |
 | [`project/templates/`](project/templates/) | Course-provided starter notebooks, kept unmodified for reference.<br>课程给的代码模板 `Q1_template.ipynb` / `Q2_template.ipynb`,保持原样以便对照。 |
 | [`project/assets/`](project/assets/) | Figures referenced by `spec.md`.<br>`spec.md` 引用的插图 `Q1_figure.png` / `Q2_figure.png`。 |
 | [`claude-memory/`](claude-memory/) | Claude Code 跨机记忆镜像(见下方说明)。 |
 
-> 后续作业 / 项目会以新的顶层文件夹形式加入(如 `assignment2/`)。
+> 后续作业 / 项目会以新的顶层文件夹形式加入(如 `assignment3/`)。
 
 ## 🧠 `claude-memory/`
 
