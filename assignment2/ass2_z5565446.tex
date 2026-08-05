@@ -401,8 +401,12 @@ each $k$ run a \emph{backward} BFS (over reversed edges) and a \emph{forward} BF
 reaching a vertex $x$, first test whether the labels built \emph{so far} already prove the
 corresponding reachability --- $L_{\mathrm{out}}(x)\cap L_{\mathrm{in}}(k)\neq\emptyset$
 backward, $L_{\mathrm{out}}(k)\cap L_{\mathrm{in}}(x)\neq\emptyset$ forward. If they do,
-\textbf{prune}: add nothing and do not expand past $x$, since everything behind $x$ is
-already covered through that same earlier hub. Otherwise add $k$ to $L_{\mathrm{out}}(x)$
+\textbf{prune}: add nothing and do not expand past $x$. This is sound because the hub $h$
+that certifies the pair was processed \emph{earlier} and lies on the path from $k$ through
+$x$ to everything beyond it, so each of those pairs is already answered by the labels built
+so far --- though not necessarily through $h$ itself. (At hub $2$, for instance, the
+forward BFS prunes at $6$ via hub $6$, yet the pair $2\rightsquigarrow 4$ behind it is
+certified by hub $5$.) Otherwise add $k$ to $L_{\mathrm{out}}(x)$
 (backward) or $L_{\mathrm{in}}(x)$ (forward) and keep expanding. The result is a
 \emph{minimal} $2$-hop cover: no single entry can be deleted without breaking some
 reachable pair.
@@ -514,10 +518,16 @@ which covers exactly $v$'s tree descendants. Then, in \textbf{reverse topologica
 \[
   L(u)=I(u)\ \cup \bigcup_{u\to w\,\in\,E} L(w),
 \]
-deleting from $L(u)$ any interval \emph{contained} in another interval of the same label.
-Only containment is removed: adjacent or partially overlapping intervals are kept, since
-merging them would manufacture reachability that does not exist. A query is then
+deleting from $L(u)$ any interval \emph{contained} in another interval of the same label ---
+that is the redundancy the algorithm removes. A query is then
 $u\rightsquigarrow v \iff \mathrm{post}(v)$ lies in some interval of $L(u)$.
+
+Adjacent or partially overlapping intervals are \emph{not} merged. Merging them would in
+fact stay correct, since post-numbers are consecutive integers and e.g.\ $[1,2]$ together
+with $[3,6]$ covers exactly $[1,6]$; it is simply a further compression that the tree-cover
+algorithm does not perform. It would not affect the comparison either --- merged, the two
+labellings below need $25$ and $27$ intervals instead of $26$ and $31$, so Tree~1 still
+wins.
 
 Both spanning trees are rooted at vertex $1$, the only source of the DAG. The post-order
 number of each vertex is printed in \textcolor{accent}{blue} beside it.

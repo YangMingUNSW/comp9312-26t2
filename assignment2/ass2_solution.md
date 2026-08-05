@@ -187,9 +187,12 @@ answerable, since `v` is the only possible hub for it.
 reversed edges) and a *forward* BFS. On reaching a vertex `x`, first test whether the
 labels built **so far** already prove the corresponding reachability
 (`L_out(x) ∩ L_in(k) ≠ ∅` backward, `L_out(k) ∩ L_in(x) ≠ ∅` forward). If they do, **prune**:
-add nothing and do not expand past `x` — anything behind `x` is covered through the same
-earlier hub. Otherwise add `k` to `L_out(x)` (backward) or `L_in(x)` (forward) and keep
-going. This yields a *minimal* cover: no single entry can be deleted without breaking
+add nothing and do not expand past `x`. This is sound because the hub `h` that certifies
+the pair was processed *earlier* and lies on the path from `k` through `x` to everything
+beyond it, so each of those pairs is already answered by the labels built so far — though
+not necessarily through `h` itself. (At hub `2`, for instance, the forward BFS prunes at
+`6` via hub `6`, yet the pair `2 ⇝ 4` behind it is certified by hub `5`.) Otherwise add `k`
+to `L_out(x)` (backward) or `L_in(x)` (forward) and keep going. This yields a *minimal* cover: no single entry can be deleted without breaking
 some reachable pair.
 
 **Round-by-round trace** (`+` = hub added there, `✂` = pruned):
@@ -235,9 +238,14 @@ everything reachable from 1 stays in `{4, 5, 8, 9, 10}`.
 vertex `v` gets the interval `I(v) = [min post-number in v's subtree, post(v)]`, which
 covers exactly `v`'s tree descendants. Then, in **reverse topological order**, set
 `L(u) = I(u) ∪ ⋃_{u→w ∈ E} L(w)` and delete any interval **contained** in another interval
-of the same label (only containment is removed — adjacent or partially overlapping
-intervals are kept, since merging them would create false reachability). Query:
+of the same label — that is the redundancy the algorithm removes. Query:
 `u ⇝ v ⟺ post(v)` lies in some interval of `L(u)`.
+
+Adjacent or partially overlapping intervals are *not* merged. Merging them would in fact
+stay correct, since post-numbers are consecutive integers and e.g. `[1,2]` together with
+`[3,6]` covers exactly `[1,6]`; it is simply a further compression that the tree-cover
+algorithm does not perform. It would not affect the comparison either — merged, the two
+labellings below need 25 and 27 intervals instead of 26 and 31, so Tree 1 still wins.
 
 Both trees are rooted at vertex 1 (the only source of the DAG).
 
