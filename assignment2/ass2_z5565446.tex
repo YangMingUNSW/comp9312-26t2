@@ -14,6 +14,7 @@
 \usepackage{fancyhdr}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
+\usepackage{needspace}   % stop a section heading being stranded at a page foot
 
 % --- Colour palette ---
 \definecolor{accent}{HTML}{1F4E79}   % deep blue for headings / boxes
@@ -157,6 +158,7 @@ $\{D,E,F\}$ & $G$ & $G$--$E$ \quad(1) & \textbf{yes} \\
 $\{B,C,D,E\}$, $\{B,C,D,F\}$, $\{B,D,E,F\}$, $\{C,D,E,F\}$, $\{D,E,F,G\}$.}
 
 %=====================================================================
+\needspace{7\baselineskip}
 \section*{Q2. Weisfeiler-Lehman color refinement}
 
 \begin{center}
@@ -340,6 +342,7 @@ $2$ & $[1,2,1,0,1,1,0]$ & $[2,1,0,2,0,0,1]$ & $1\cdot 2+2\cdot 1=4$ \\
 \answer{$K_{\mathrm{WL}}(G,G')=36+14+4=\mathbf{54}$.}
 
 %=====================================================================
+\needspace{7\baselineskip}
 \section*{Q3. Reachability indexing}
 
 \subsection*{(a) Minimal 2-hop labelling}
@@ -710,6 +713,7 @@ $\{4,8,10,11,12,13,14\}$ inside one subtree, whereas Tree 2 scatters it over thr
 branches and leaves vertex $4$ as an absorbing-nothing leaf.}
 
 %=====================================================================
+\needspace{7\baselineskip}
 \section*{Q4. One-layer GNN mean aggregation}
 
 \begin{center}
@@ -739,8 +743,8 @@ branches and leaves vertex $4$ as an absorbing-nothing leaf.}
                   + \begin{pmatrix}1\\1\end{pmatrix}\right]
                   = \begin{pmatrix}1\\[2pt] 0.5\end{pmatrix},\qquad
   \mathrm{CONCAT}\bigl(h_B^{(0)},h_{N(B)}^{(0)}\bigr)
-                  = \begin{pmatrix}0\\1\\1\\0.5\end{pmatrix}\\[4pt]
-  W\cdot\begin{pmatrix}0\\1\\1\\0.5\end{pmatrix}
+                  = (0,\,1,\,1,\,0.5)^{\mathsf T}\\[4pt]
+  W\cdot(0,\,1,\,1,\,0.5)^{\mathsf T}
     &= \begin{pmatrix} 1(0)-1(1)+1(1)+0(0.5)\\[2pt] 0(0)+1(1)-1(1)+1(0.5)\end{pmatrix}
      = \begin{pmatrix}0\\[2pt]0.5\end{pmatrix}
   \;\xrightarrow{\ \mathrm{ReLU}\ }\;
@@ -754,8 +758,8 @@ branches and leaves vertex $4$ as an absorbing-nothing leaf.}
                   + \begin{pmatrix}2\\0\end{pmatrix}\right]
                   = \begin{pmatrix}1\\[2pt] 1/3\end{pmatrix},\qquad
   \mathrm{CONCAT}\bigl(h_C^{(0)},h_{N(C)}^{(0)}\bigr)
-                  = \begin{pmatrix}1\\1\\1\\1/3\end{pmatrix}\\[4pt]
-  W\cdot\begin{pmatrix}1\\1\\1\\1/3\end{pmatrix}
+                  = \bigl(1,\,1,\,1,\,\tfrac13\bigr)^{\mathsf T}\\[4pt]
+  W\cdot\bigl(1,\,1,\,1,\,\tfrac13\bigr)^{\mathsf T}
     &= \begin{pmatrix} 1-1+1+0\\[2pt] 0+1-1+\tfrac13\end{pmatrix}
      = \begin{pmatrix}1\\[2pt]1/3\end{pmatrix}
   \;\xrightarrow{\ \mathrm{ReLU}\ }\;
@@ -801,20 +805,21 @@ $D$ & $\{C\}\rightarrow\{B,C\}$       & $(3.00,\,0.00)^{\mathsf T}$ & $\mathbf{(
 \end{tabular}
 \end{center}
 
-\noindent The two recomputations:
+\noindent The two recomputations, writing column vectors as transposed rows to keep them
+compact:
 \begin{align*}
-  B:\quad h_{N(B)}^{(0)} &= \tfrac13\!\left[\begin{pmatrix}1\\0\end{pmatrix}
-       +\begin{pmatrix}1\\1\end{pmatrix}+\begin{pmatrix}2\\0\end{pmatrix}\right]
-       =\begin{pmatrix}4/3\\[2pt]1/3\end{pmatrix},&
-  W\!\cdot\!\begin{pmatrix}0\\1\\4/3\\1/3\end{pmatrix}
-    &=\begin{pmatrix}0-1+\tfrac43+0\\[2pt] 0+1-\tfrac43+\tfrac13\end{pmatrix}
-     =\begin{pmatrix}1/3\\[2pt]0\end{pmatrix}\\[4pt]
-  D:\quad h_{N(D)}^{(0)} &= \tfrac12\!\left[\begin{pmatrix}0\\1\end{pmatrix}
-       +\begin{pmatrix}1\\1\end{pmatrix}\right]
-       =\begin{pmatrix}0.5\\[2pt]1\end{pmatrix},&
-  W\!\cdot\!\begin{pmatrix}2\\0\\0.5\\1\end{pmatrix}
-    &=\begin{pmatrix}2-0+0.5+0\\[2pt] 0+0-0.5+1\end{pmatrix}
-     =\begin{pmatrix}2.5\\[2pt]0.5\end{pmatrix}
+  B:\quad h_{N(B)}^{(0)}
+    &= \tfrac13\bigl[(1,0)+(1,1)+(2,0)\bigr]^{\mathsf T}
+     = \bigl(\tfrac43,\ \tfrac13\bigr)^{\mathsf T} \\
+  W\!\cdot\!\bigl(0,\,1,\,\tfrac43,\,\tfrac13\bigr)^{\mathsf T}
+    &= \bigl(0-1+\tfrac43+0,\ \ 0+1-\tfrac43+\tfrac13\bigr)^{\mathsf T}
+     = \bigl(\tfrac13,\ 0\bigr)^{\mathsf T} \\[5pt]
+  D:\quad h_{N(D)}^{(0)}
+    &= \tfrac12\bigl[(0,1)+(1,1)\bigr]^{\mathsf T}
+     = (0.5,\ 1)^{\mathsf T} \\
+  W\!\cdot\!(2,\,0,\,0.5,\,1)^{\mathsf T}
+    &= (2-0+0.5+0,\ \ 0+0-0.5+1)^{\mathsf T}
+     = (2.5,\ 0.5)^{\mathsf T}
 \end{align*}
 
 \noindent Both are already non-negative, so $\mathrm{ReLU}$ leaves them unchanged:
