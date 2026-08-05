@@ -13,6 +13,9 @@ metadata:
 **The question page is entirely inline SVG** — fetching it as text loses every graph.
 The seven figures were decoded from the SVG coordinates into `assignment2/assets/*.svg`
 plus YAML edge lists in `ass2.md`; start from those, never from a text scrape.
+`ass2.md` is a **verbatim** transcription of the page (the user hand-checks it against the
+website), with every non-page addition flagged inline by a `🔧 [非原文]` marker — keep it
+that way.
 
 Answers (all verified by an independent Python script — brute-force isomorphism,
 all-pairs reachability cross-checks, exact rational arithmetic):
@@ -38,5 +41,24 @@ all-pairs reachability cross-checks, exact rational arithmetic):
   totals.
 - **Q4.** `h_B⁽¹⁾=(0.00,0.50)ᵀ`, `h_C⁽¹⁾=(1.00,0.33)ᵀ`; adding `B–D` affects exactly
   `{B, D}` (check all four vertices explicitly — ReLU can mask a change).
+
+**Two plausible-sounding justifications that are FALSE** — both were written into the
+solution and only caught on a later review pass, because scripts that check numbers cannot
+check reasoning:
+
+1. *"A non-tree edge `u→w` is free because every interval of `L(w)` is contained in
+   `I(u)`."* False — Tree 1's edge `2→9` is free although `L(9)={[1,1],[7,8]}` is not inside
+   `I(2)=[1,4]`. The real reason is that `w` is a tree **descendant** of `u`, so the tree
+   path already carries `L(w)` upward. Containment is a *separate* effect: it is what
+   collapses `L(u)` to `{I(u)}`, which happens exactly when everything `u` reaches lies in
+   `u`'s subtree.
+2. *"The only hub candidates for a direct edge `u→v` are `u` and `v`."* False — any vertex
+   on another `u`–`v` path qualifies (Figure 4: edge `2→5` also has the path `2→1→5`).
+   Justify self-labels from the prescribed algorithm instead: each hub's search starts at
+   the hub, and `L_out(k) ∩ L_in(k)` must be empty beforehand in a DAG (a common hub would
+   imply a cycle), so `k` is never pruned at itself.
+
+**How to apply:** verifying computed values is not the same as verifying the argument
+offered for them. Re-read every "because …" clause on its own and try to break it.
 
 See [[comp9312-repo]], [[solution-file-convention]], [[readability-first]].
