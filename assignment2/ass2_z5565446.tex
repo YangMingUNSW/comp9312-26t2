@@ -363,7 +363,14 @@ reachable \emph{from} $u$, $L_{\mathrm{in}}(v)$ holds hubs that \emph{reach} $v$
 \[
   u\rightsquigarrow v \iff L_{\mathrm{out}}(u)\cap L_{\mathrm{in}}(v)\neq\emptyset .
 \]
-Reachability is reflexive, so every hub puts itself into both of its own labels.
+Every vertex appears in its own two labels. That is forced rather than a stylistic
+choice: to certify a direct edge $u\to v$ the shared hub must be reachable from $u$ and
+must reach $v$, and in a DAG the only candidates are $u$ and $v$ themselves --- so either
+$u\in L_{\mathrm{out}}(u)$ and $u\in L_{\mathrm{in}}(v)$, or $v\in L_{\mathrm{out}}(u)$ and
+$v\in L_{\mathrm{in}}(v)$. Either way some vertex sits in its own label, so each hub $k$
+inserts itself into $L_{\mathrm{in}}(k)$ and $L_{\mathrm{out}}(k)$ when it is processed.
+(Consistently, $L_{\mathrm{out}}(k)\cap L_{\mathrm{in}}(k)=\emptyset$ before that insertion:
+a hub $h\neq k$ in both would mean $k\rightsquigarrow h$ and $h\rightsquigarrow k$, a cycle.)
 
 \noindent\textbf{\color{accent!85!black}Processing order.} Total degree $=$ in-degree $+$
 out-degree, decreasing, ties broken by smaller vertex ID:

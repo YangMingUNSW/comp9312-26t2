@@ -159,8 +159,15 @@ vertices.
 ### (a) Minimal 2-hop labelling
 
 **Convention.** `L_out(u)` holds hubs reachable *from* `u`, `L_in(v)` holds hubs that
-*reach* `v`, and `u ⇝ v ⟺ L_out(u) ∩ L_in(v) ≠ ∅`. Reachability is reflexive, so each hub
-puts itself into both of its own labels.
+*reach* `v`, and `u ⇝ v ⟺ L_out(u) ∩ L_in(v) ≠ ∅`.
+
+Every vertex appears in its own two labels. That is *forced*, not a stylistic choice: to
+certify a direct edge `u→v` the shared hub must be reachable from `u` and must reach `v`,
+and in a DAG the only candidates are `u` and `v` themselves — so either `u ∈ L_out(u)` and
+`u ∈ L_in(v)`, or `v ∈ L_out(u)` and `v ∈ L_in(v)`. Either way some vertex sits in its own
+label, so each hub `k` inserts itself into `L_in(k)` and `L_out(k)` when processed.
+(Consistently, `L_out(k) ∩ L_in(k) = ∅` just before that insertion: a hub `h ≠ k` in both
+would mean `k ⇝ h` and `h ⇝ k`, a cycle.)
 
 **Processing order.** Total degree = in-degree + out-degree, decreasing, ties by smaller ID:
 
