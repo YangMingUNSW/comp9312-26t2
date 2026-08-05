@@ -116,9 +116,12 @@ $r\mapsto D$, $s\mapsto E$ (all four edges of $P$ land on edges of $G$).}
 
 $P$ is a triangle plus one pendant vertex ($4$ vertices, $4$ edges). A vertex set
 $S\subseteq V(G)$ with $|S|=4$ induces a copy of $P$ \textbf{iff} three of its vertices
-form a triangle and the fourth sends \emph{exactly one} edge into that triangle --- an
-induced subgraph keeps \emph{every} edge of $G$ inside $S$, so two such edges would give
-$5$ edges and none would leave the set disconnected.
+form a triangle and the fourth sends \emph{exactly one} edge into that triangle. An induced
+subgraph keeps \emph{every} edge of $G$ inside $S$, so two or three such edges would give
+$5$ or $6$ edges rather than $4$, while none would leave the fourth vertex isolated and $P$
+is connected. Conversely any induced copy of $P$ must contain a triangle, since $P$ does,
+and its remaining vertex is $P$'s degree-$1$ pendant --- so enumerating $G$'s triangles is
+exhaustive.
 
 $G$ has exactly three triangles: $\{A,B,C\}$, $\{B,C,D\}$, $\{D,E,F\}$. Extending each by
 a fourth vertex:
@@ -182,10 +185,10 @@ alone cannot tell them apart.
 $(\text{own colour},\ \text{sorted multiset of neighbour colours})$. Each round, the
 distinct tuples occurring in \emph{either} graph are sorted lexicographically and receive
 the IDs $0,1,2,\dots$ Restarting the IDs at $0$ in every round is what ``starting from
-$0$'' prescribes; continuing the numbering across rounds would merely shift every ID by a
-constant and would change neither the entries of any $\boldsymbol{\phi}_t$ nor the kernel,
-because $\boldsymbol{\phi}_t(G)$ and $\boldsymbol{\phi}_t(G')$ are always indexed the same
-way.
+$0$'' prescribes. Continuing the numbering across rounds instead would only shift each
+round's IDs by a constant, padding the vectors with zero entries for the colours of earlier
+rounds; since $\boldsymbol{\phi}_t(G)$ and $\boldsymbol{\phi}_t(G')$ are always indexed the
+same way, every inner product --- and hence the kernel --- is unchanged either way.
 
 \subsection*{Round 0}
 
@@ -363,14 +366,14 @@ reachable \emph{from} $u$, $L_{\mathrm{in}}(v)$ holds hubs that \emph{reach} $v$
 \[
   u\rightsquigarrow v \iff L_{\mathrm{out}}(u)\cap L_{\mathrm{in}}(v)\neq\emptyset .
 \]
-Every vertex appears in its own two labels. That is forced rather than a stylistic
-choice: to certify a direct edge $u\to v$ the shared hub must be reachable from $u$ and
-must reach $v$, and in a DAG the only candidates are $u$ and $v$ themselves --- so either
-$u\in L_{\mathrm{out}}(u)$ and $u\in L_{\mathrm{in}}(v)$, or $v\in L_{\mathrm{out}}(u)$ and
-$v\in L_{\mathrm{in}}(v)$. Either way some vertex sits in its own label, so each hub $k$
-inserts itself into $L_{\mathrm{in}}(k)$ and $L_{\mathrm{out}}(k)$ when it is processed.
-(Consistently, $L_{\mathrm{out}}(k)\cap L_{\mathrm{in}}(k)=\emptyset$ before that insertion:
-a hub $h\neq k$ in both would mean $k\rightsquigarrow h$ and $h\rightsquigarrow k$, a cycle.)
+Every vertex ends up in its own two labels. This is not a convention chosen by hand --- it
+follows from the algorithm below. Each of hub $k$'s two searches starts \emph{at $k$}, and
+the pruning test there is whether $L_{\mathrm{out}}(k)\cap L_{\mathrm{in}}(k)$ is already
+non-empty. In a DAG that intersection is necessarily empty before $k$ labels itself: a
+common hub $h\neq k$ would give $k\rightsquigarrow h$ and $h\rightsquigarrow k$, i.e.\ a
+cycle. So $k$ is never pruned at itself and always adds
+$k\in L_{\mathrm{out}}(k)$, $k\in L_{\mathrm{in}}(k)$. This is also exactly what makes the
+reflexive query $v\rightsquigarrow v$ answerable, since $v$ is the only possible hub for it.
 
 \noindent\textbf{\color{accent!85!black}Processing order.} Total degree $=$ in-degree $+$
 out-degree, decreasing, ties broken by smaller vertex ID:
@@ -645,10 +648,24 @@ Non-tree edges absorbed at no cost & $2$ \ ($2\to 9$, $4\to 13$) & $0$ \\
 \end{center}
 
 \noindent\textbf{\color{accent!85!black}Why.} A vertex's label starts as its own interval
-and then grows by inheriting intervals along non-tree edges. An edge $u\to w$ costs
-\emph{nothing} exactly when $w$ already lies in $u$'s subtree, because then every interval
-of $L(w)$ is contained in $I(u)$ and is deleted. So a spanning tree is good precisely when
-it keeps mutually reachable clusters together inside one subtree.
+and then grows by inheriting intervals along its out-edges. Two distinct effects limit that
+growth.
+
+\begin{itemize}[leftmargin=1.3em]
+  \item A non-tree edge $u\to w$ is \emph{free} whenever $w$ is already a tree descendant
+    of $u$, because the tree path from $u$ down to $w$ carries $L(w)$ upward in any case.
+    Note this is \emph{not} a containment effect: in Tree 1, $L(9)=\{[1,1],[7,8]\}$ is not
+    inside $I(2)=[1,4]$, yet the edge $2\to 9$ still costs nothing.
+  \item Containment is the stronger effect, and the one that decides this comparison. If
+    everything $u$ can reach lies inside $u$'s own subtree, then every inherited interval
+    has both endpoints among that subtree's post-numbers, so it is contained in $I(u)$ and
+    deleted --- and $L(u)$ collapses to the single interval $I(u)$. In both trees
+    $L(u)=\{I(u)\}$ holds \emph{exactly} for the vertices counted in the
+    ``single interval'' row above.
+\end{itemize}
+
+\noindent So a spanning tree is good precisely when it keeps mutually reachable clusters
+together inside one subtree.
 
 \begin{itemize}[leftmargin=1.3em]
   \item \textbf{Tree 1} puts the DAG's whole converging tail --- $4,8,10,11,12,13,14$ ---

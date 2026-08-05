@@ -37,9 +37,11 @@ Checking all four edges of `P`:
 
 `P` has 4 vertices and 4 edges: a triangle plus one pendant vertex. So a vertex set
 `S ⊆ V(G)` with `|S| = 4` works **iff** three of its vertices form a triangle and the
-fourth has **exactly one** edge into that triangle (exactly one, because an induced
-subgraph keeps every edge of `G` inside `S` — a second edge would give 5 edges, and no
-edge would leave the set disconnected).
+fourth has **exactly one** edge into that triangle. An induced subgraph keeps every edge of
+`G` inside `S`, so two or three such edges would give 5 or 6 edges rather than 4, while
+none would leave the fourth vertex isolated and `P` is connected. Conversely any induced
+copy of `P` must contain a triangle (since `P` does), and its remaining vertex is `P`'s
+degree-1 pendant — so enumerating `G`'s triangles is exhaustive.
 
 `G` has exactly three triangles: `{A,B,C}`, `{B,C,D}`, `{D,E,F}`. Extend each by one
 vertex and count the edges it sends into the triangle:
@@ -74,9 +76,11 @@ apart by degrees alone.
 Convention used, exactly as stated in the question: a vertex's tuple is
 `(own colour, sorted multiset of neighbour colours)`; each round the distinct tuples
 occurring in **either** graph are sorted lexicographically and given IDs `0, 1, 2, …`.
-*(Restarting IDs at 0 each round is what "starting from 0" prescribes; continuing the
-numbering across rounds would shift every ID by a constant and change neither the entries
-of any `φ_t` nor the kernel, since `φ_t(G)` and `φ_t(G')` are always indexed the same way.)*
+*(Restarting IDs at 0 each round is what "starting from 0" prescribes. Continuing the
+numbering across rounds instead would only shift each round's IDs by a constant, padding
+the vectors with zero entries for earlier rounds' colours; since `φ_t(G)` and `φ_t(G')` are
+always indexed the same way, every inner product — and hence the kernel — is unchanged
+either way.)*
 
 ### Round 0
 
@@ -161,13 +165,13 @@ vertices.
 **Convention.** `L_out(u)` holds hubs reachable *from* `u`, `L_in(v)` holds hubs that
 *reach* `v`, and `u ⇝ v ⟺ L_out(u) ∩ L_in(v) ≠ ∅`.
 
-Every vertex appears in its own two labels. That is *forced*, not a stylistic choice: to
-certify a direct edge `u→v` the shared hub must be reachable from `u` and must reach `v`,
-and in a DAG the only candidates are `u` and `v` themselves — so either `u ∈ L_out(u)` and
-`u ∈ L_in(v)`, or `v ∈ L_out(u)` and `v ∈ L_in(v)`. Either way some vertex sits in its own
-label, so each hub `k` inserts itself into `L_in(k)` and `L_out(k)` when processed.
-(Consistently, `L_out(k) ∩ L_in(k) = ∅` just before that insertion: a hub `h ≠ k` in both
-would mean `k ⇝ h` and `h ⇝ k`, a cycle.)
+Every vertex ends up in its own two labels. This is not a convention chosen by hand — it
+follows from the algorithm below. Each of hub `k`'s two searches starts *at `k`*, and the
+pruning test there is whether `L_out(k) ∩ L_in(k)` is already non-empty. In a DAG that
+intersection is necessarily empty before `k` labels itself: a common hub `h ≠ k` would give
+`k ⇝ h` and `h ⇝ k`, i.e. a cycle. So `k` is never pruned at itself and always adds
+`k ∈ L_out(k)`, `k ∈ L_in(k)`. This is also exactly what makes the reflexive query `v ⇝ v`
+answerable, since `v` is the only possible hub for it.
 
 **Processing order.** Total degree = in-degree + out-degree, decreasing, ties by smaller ID:
 
@@ -295,9 +299,20 @@ Post-order: `5, 2, 14, 12, 9, 6, 10, 7, 13, 11, 8, 3, 4, 1`.
 | non-tree edges absorbed with no cost | 2 — `2→9`, `4→13` | 0 |
 
 **Why.** A vertex's label starts as its own interval and grows by inheriting intervals
-along non-tree edges. An edge `u→w` costs nothing exactly when `w` already lies in `u`'s
-subtree, since then `L(w)`'s intervals are contained in `I(u)` and get deleted. So a
-spanning tree is good when it keeps mutually reachable clusters inside one subtree.
+along its out-edges. Two distinct effects limit that growth:
+
+- A non-tree edge `u→w` is **free** whenever `w` is already a tree descendant of `u`,
+  because the tree path from `u` down to `w` carries `L(w)` upward in any case. Note this
+  is *not* a containment effect: in Tree 1, `L(9) = {[1,1], [7,8]}` is not inside
+  `I(2) = [1,4]`, yet the edge `2→9` still costs nothing.
+- Containment is the stronger effect, and the one that decides this comparison. If
+  everything `u` can reach lies inside `u`'s own subtree, then every inherited interval has
+  both endpoints among that subtree's post-numbers, so it is contained in `I(u)` and
+  deleted — and `L(u)` collapses to the single interval `I(u)`. In both trees
+  `L(u) = {I(u)}` holds *exactly* for the vertices counted in the "single interval" row
+  above.
+
+So a spanning tree is good when it keeps mutually reachable clusters inside one subtree.
 
 - **Tree 1** places the whole "funnel" of the DAG — `4, 8, 10, 11, 12, 13, 14` — into a
   single subtree rooted at 4 (`4→8→{10,11}`, `10→{12,13}`, `12→14`). Every DAG edge among
