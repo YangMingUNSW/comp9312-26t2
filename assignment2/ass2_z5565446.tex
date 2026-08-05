@@ -90,9 +90,13 @@
 
 \subsection*{(a) A homomorphism from $P$ to $G$}
 
-A homomorphism only has to map every \emph{edge} of $P$ to an edge of $G$; distinct
-vertices of $P$ may collapse onto the same vertex of $G$. One exists --- and here nothing
-even needs to collapse:
+A homomorphism only has to map every \emph{edge} of $P$ to an edge of $G$, and distinct
+vertices of $P$ may collapse onto one vertex of $G$ --- but only \emph{non-adjacent} ones:
+$G$ is simple, so an edge of $P$ whose two endpoints collapsed would need a self-loop in
+$G$. Hence $p,q,r$, being pairwise adjacent, must land on three \emph{distinct} vertices
+spanning a triangle of $G$, while the pendant $s$ is free to reuse the image of $p$ or $q$.
+Sending the triangle to $B,C,D$ leaves $r$'s image $D$ with the spare neighbour $E$ for
+$s$, so nothing needs to collapse at all:
 \[
   p\mapsto B,\qquad q\mapsto C,\qquad r\mapsto D,\qquad s\mapsto E .
 \]
@@ -197,7 +201,9 @@ $\boldsymbol{\phi}_0(G)=\boldsymbol{\phi}_0(G')=[\,6\,]$.
 
 \subsection*{Round 1}
 
-Lexicographic order of the flattened tuples: $(0,0)<(0,0,0)<(0,0,0,0)$, giving
+Lexicographic order of the tuples: $(0,[0])<(0,[0,0])<(0,[0,0,0])$. (Comparing the colour
+first and then the neighbour list, or flattening each tuple into one sequence, give the
+same order in both rounds, so the answer does not depend on which reading is taken.)
 
 \begin{center}
 \rowcolors{2}{accent!6}{white}
@@ -774,9 +780,11 @@ $h_C^{(1)}=(1.00,\ 0.33)^{\mathsf T}$.}
 
 \subsection*{(b) After adding the edge $B$--$D$}
 
-Only $N(B)$ and $N(D)$ change, and no initial embedding changes, so $A$ and $C$ receive
-exactly the same input vector as before. Since $\mathrm{ReLU}$ can also hide a change by
-clipping it to $0$, all four vertices are computed explicitly:
+Adding $B$--$D$ changes only $N(B)$ and $N(D)$, and no initial embedding changes, so $A$ and
+$C$ receive \emph{identical} input vectors and cannot move. For $B$ and $D$ the input does
+change --- but that on its own does not settle the question, since $\mathrm{ReLU}$ could
+clip two different pre-activations to the same value. Both are therefore recomputed
+explicitly:
 
 \begin{center}
 \rowcolors{2}{accent!6}{white}
@@ -811,7 +819,10 @@ $D$ & $\{C\}\rightarrow\{B,C\}$       & $(3.00,\,0.00)^{\mathsf T}$ & $\mathbf{(
 
 \noindent Both are already non-negative, so $\mathrm{ReLU}$ leaves them unchanged:
 $h_B^{(1)}=(0.33,\,0.00)^{\mathsf T}$ (was $(0.00,\,0.50)^{\mathsf T}$) and
-$h_D^{(1)}=(2.50,\,0.50)^{\mathsf T}$ (was $(3.00,\,0.00)^{\mathsf T}$).
+$h_D^{(1)}=(2.50,\,0.50)^{\mathsf T}$ (was $(3.00,\,0.00)^{\mathsf T}$). In fact
+$\mathrm{ReLU}$ never clips anything in this question --- all eight pre-activations (four
+vertices, before and after) are already non-negative --- so the masking it could in
+principle cause does not arise, and both endpoints genuinely move.
 
 \answer{The affected vertices are $\mathbf{\{B,\ D\}}$ --- exactly the endpoints of the new
 edge. $A$ and $C$ are unchanged because a one-layer GNN only reads the $1$-hop

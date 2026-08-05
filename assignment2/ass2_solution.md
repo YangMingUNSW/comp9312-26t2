@@ -14,9 +14,13 @@ Question text and figure data: [`ass2.md`](ass2.md). This is the readable mirror
 
 ### (a) A homomorphism from `P` to `G`
 
-A homomorphism only has to map every **edge** of `P` to an edge of `G`; distinct vertices
-of `P` may collapse onto the same vertex of `G`. One exists, and here we do not even need
-to collapse anything:
+A homomorphism only has to map every **edge** of `P` to an edge of `G`, and distinct
+vertices of `P` may collapse onto one vertex of `G` — but only *non-adjacent* ones: `G` is
+simple, so an edge of `P` whose two endpoints collapsed would need a self-loop in `G`.
+Hence `p, q, r`, being pairwise adjacent, must land on three **distinct** vertices spanning
+a triangle of `G`, while the pendant `s` is free to reuse the image of `p` or `q`. Sending
+the triangle to `B, C, D` leaves `r`'s image `D` with the spare neighbour `E` for `s`, so
+nothing needs to collapse at all:
 
 | `P` | `p` | `q` | `r` | `s` |
 | --- | --- | --- | --- | --- |
@@ -96,7 +100,9 @@ Every vertex has colour `0`, so there is a single colour and
 | 1 | `(0, [0,0])` | degree-2 vertices |
 | 2 | `(0, [0,0,0])` | degree-3 vertices |
 
-(Lexicographic order on the flattened tuples: `(0,0) < (0,0,0) < (0,0,0,0)`.)
+(Lexicographic order: `(0,[0]) < (0,[0,0]) < (0,[0,0,0])`. Comparing the colour first and
+then the neighbour list, or flattening each tuple into one sequence, give the same order in
+both rounds, so the answer does not depend on which reading is taken.)
 
 | `G` vertex | tuple | new colour | | `G'` vertex | tuple | new colour |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -384,9 +390,10 @@ h_C⁽¹⁾ = ReLU( (1, 1/3)ᵀ ) = (1.00, 0.33)ᵀ
 
 ### (b) After adding the edge `B–D`
 
-Only `N(B)` and `N(D)` change, and no initial embedding changes, so `A` and `C` receive
-exactly the same input vector as before and cannot change. Because `ReLU` can hide a change
-by clipping it to 0, we still compute all four vertices explicitly:
+Adding `B–D` changes only `N(B)` and `N(D)`, and no initial embedding changes, so `A` and
+`C` receive **identical** input vectors and cannot move. For `B` and `D` the input does
+change — but that on its own does not settle the question, since `ReLU` could clip two
+different pre-activations to the same value. Both are therefore recomputed explicitly:
 
 | `v` | `N(v)` before → after | `h_v⁽¹⁾` before | `h_v⁽¹⁾` after | changed? |
 | --- | --- | --- | --- | --- |
@@ -406,6 +413,10 @@ D:  h_N(D)⁽⁰⁾ = ½·[ (0,1)ᵀ + (1,1)ᵀ ] = (0.5, 1)ᵀ
     W · (2, 0, 0.5, 1)ᵀ = ( 2 − 0 + 0.5 + 0 , 0 + 0 − 0.5 + 1 )ᵀ = (2.5, 0.5)ᵀ
     h_D⁽¹⁾ = (2.50, 0.50)ᵀ          (was (3.00, 0.00)ᵀ)
 ```
+
+In fact `ReLU` never clips anything in this question — all eight pre-activations (four
+vertices, before and after) are already non-negative — so the masking it could in principle
+cause does not arise, and both endpoints genuinely move.
 
 > **Answer (b).** The affected vertices are **`{B, D}`** — exactly the endpoints of the
 > new edge. `A` and `C` are unchanged because a one-layer GNN only sees the 1-hop
