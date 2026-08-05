@@ -168,6 +168,9 @@ vertices.
 
 ### (a) Minimal 2-hop labelling
 
+**Figure 4 (21 edges):** `1→4, 1→5, 2→1, 2→5, 2→6, 3→2, 3→6, 3→7, 4→8, 4→9, 5→4, 5→9,
+5→10, 6→5, 6→10, 6→11, 7→6, 7→11, 8→9, 10→8, 11→10`
+
 **Convention.** `L_out(u)` holds hubs reachable *from* `u`, `L_in(v)` holds hubs that
 *reach* `v`, and `u ⇝ v ⟺ L_out(u) ∩ L_in(v) ≠ ∅`.
 
@@ -239,6 +242,14 @@ Index size 44 entries. Sanity checks: `3 ⇝ 9` since `L_out(3) ∩ L_in(9) = {5
 everything reachable from 1 stays in `{4, 5, 8, 9, 10}`.
 
 ### (b) Comparing two spanning trees
+
+**Figure 5 (23 edges; vertex 1 is the only source):** `1→2, 1→3, 1→4, 2→5, 2→6, 2→9, 3→6,
+3→7, 3→8, 4→8, 4→13, 5→9, 6→9, 6→10, 7→10, 8→10, 8→11, 9→12, 10→12, 10→13, 11→13, 12→14,
+13→14`
+
+**Figure 6 — children, left to right:**
+Tree 1 `1:2,3,4; 2:5,6; 3:7; 4:8; 5:9; 8:10,11; 10:12,13; 12:14`
+Tree 2 `1:2,3,4; 2:5; 3:6,7,8; 6:9; 7:10; 8:11; 9:12; 11:13; 12:14`
 
 **Algorithm.** Number the tree vertices by a **left-to-right post-order** traversal; each
 vertex `v` gets the interval `I(v) = [min post-number in v's subtree, post(v)]`, which

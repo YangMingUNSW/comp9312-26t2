@@ -36,6 +36,17 @@
 \titleformat{\subsection}
   {\normalfont\bfseries\color{accent!85!black}}{}{0pt}{}
 \titlespacing*{\subsection}{0pt}{0.9em}{0.3em}
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\color{accent!85!black}}{}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{0.9em}{0.3em}
+
+% --- Textual cross-check printed under each input figure, so a grader can
+% --- confirm the graph was read off the drawing correctly (see assignment 1,
+% --- where every disjoint-set tree carries a "Components: {...}" line).
+\newcommand{\figdata}[1]{%
+  \par\vspace{-0.6em}%
+  {\centering\small\textit{#1}\par}%
+  \vspace{0.4em}}
 
 % --- Slightly looser table rows ---
 \renewcommand{\arraystretch}{1.25}
@@ -88,6 +99,8 @@
   \end{scope}
 \end{tikzpicture}
 \end{center}
+\figdata{$E(G)=\{A{-}B,\,A{-}C,\,B{-}C,\,B{-}D,\,C{-}D,\,D{-}E,\,D{-}F,\,E{-}F,\,E{-}G\}$
+\quad(9 edges);\qquad $E(P)=\{p{-}q,\,p{-}r,\,q{-}r,\,r{-}s\}$ \quad(4 edges).}
 
 \subsection*{(a) A homomorphism from $P$ to $G$}
 
@@ -123,8 +136,8 @@ $P$ is a triangle plus one pendant vertex ($4$ vertices, $4$ edges). A vertex se
 $S\subseteq V(G)$ with $|S|=4$ induces a copy of $P$ \textbf{iff} three of its vertices
 form a triangle and the fourth sends \emph{exactly one} edge into that triangle. An induced
 subgraph keeps \emph{every} edge of $G$ inside $S$, so two or three such edges would give
-$5$ or $6$ edges rather than $4$, while none would leave the fourth vertex isolated and $P$
-is connected. Conversely any induced copy of $P$ must contain a triangle, since $P$ does,
+$5$ or $6$ edges rather than $4$, whereas zero edges would leave the fourth vertex isolated
+even though $P$ is connected. Conversely any induced copy of $P$ must contain a triangle, since $P$ does,
 and its remaining vertex is $P$'s degree-$1$ pendant --- so enumerating $G$'s triangles is
 exhaustive.
 
@@ -179,10 +192,12 @@ $\{B,C,D,E\}$, $\{B,C,D,F\}$, $\{B,D,E,F\}$, $\{C,D,E,F\}$, $\{D,E,F,G\}$.}
     \node[gv] (nc) at (1.3,-1.1)  {c};
     \node[gv] (nf) at (2.3,-2.2)  {f};
     \foreach \u/\v in {na/nd,na/nb,na/nc,nb/ne,nc/nf} \draw[ue] (\u)--(\v);
-    \node[font=\small] at (0,-4.7) {$G'$: a tree on 6 vertices};
+    \node[font=\small] at (0,-3.0) {$G'$: a tree on 6 vertices};
   \end{scope}
 \end{tikzpicture}
 \end{center}
+\figdata{$E(G)=\{1{-}2,\,1{-}5,\,2{-}3,\,2{-}4,\,5{-}6\}$;\qquad
+$E(G')=\{a{-}b,\,a{-}c,\,a{-}d,\,b{-}e,\,c{-}f\}$ \quad(5 edges each).}
 
 Both are trees on $6$ vertices with the same degree sequence $[3,2,2,1,1,1]$, so degrees
 alone cannot tell them apart.
@@ -299,20 +314,28 @@ $f$ & $0$ & $c(1)$               & $(0,[1])$     & $0$ \\
 Seven distinct tuples occur across the two graphs; sorted lexicographically they receive
 the IDs $0$--$6$:
 
+\noindent\begin{minipage}{\linewidth}
 \begin{center}
-\resizebox{\textwidth}{!}{%
 \rowcolors{2}{accent!6}{white}
-\begin{tabular}{l c c c c c c c}
+\begin{tabular}{c l c c}
 \toprule
 \rowcolor{white}
-ID & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\
+ID & Tuple & Count in $G$ & Count in $G'$ \\
 \midrule
-Tuple & $(0,[1])$ & $(0,[2])$ & $(1,[0,1])$ & $(1,[0,2])$ & $(1,[1,2])$ & $(2,[0,0,1])$ & $(2,[0,1,1])$ \\
-Count in $G$  & $1$ & $2$ & $1$ & $0$ & $1$ & $1$ & $0$ \\
-Count in $G'$ & $2$ & $1$ & $0$ & $2$ & $0$ & $0$ & $1$ \\
+$0$ & $(0,[1])$     & $1$ & $2$ \\
+$1$ & $(0,[2])$     & $2$ & $1$ \\
+$2$ & $(1,[0,1])$   & $1$ & $0$ \\
+$3$ & $(1,[0,2])$   & $0$ & $2$ \\
+$4$ & $(1,[1,2])$   & $1$ & $0$ \\
+$5$ & $(2,[0,0,1])$ & $1$ & $0$ \\
+$6$ & $(2,[0,1,1])$ & $0$ & $1$ \\
+\midrule
+\rowcolor{white}
+\multicolumn{2}{r}{\textbf{total}} & $6$ & $6$ \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{center}
+\end{minipage}
 
 \[
   \boldsymbol{\phi}_2(G)=[\,1,2,1,0,1,1,0\,],\qquad
@@ -369,6 +392,10 @@ $2$ & $[1,2,1,0,1,1,0]$ & $[2,1,0,2,0,0,1]$ & $1\cdot 2+2\cdot 1=4$ \\
   \node[font=\small] at (6.5,-0.5) {Figure 4: a DAG for minimal 2-hop labelling};
 \end{tikzpicture}
 \end{center}
+\figdata{Edges (21):
+$1{\to}4$, $1{\to}5$, $2{\to}1$, $2{\to}5$, $2{\to}6$, $3{\to}2$, $3{\to}6$,
+$3{\to}7$, $4{\to}8$, $4{\to}9$, $5{\to}4$, $5{\to}9$, $5{\to}10$, $6{\to}5$,
+$6{\to}10$, $6{\to}11$, $7{\to}6$, $7{\to}11$, $8{\to}9$, $10{\to}8$, $11{\to}10$.}
 
 \noindent\textbf{\color{accent!85!black}Convention.} $L_{\mathrm{out}}(u)$ holds hubs
 reachable \emph{from} $u$, $L_{\mathrm{in}}(v)$ holds hubs that \emph{reach} $v$, and
@@ -447,12 +474,14 @@ $11$ & $+11$;\quad $\times 6,\times 7$ & $+11$;\quad $\times 10$ \\
 
 \noindent Two examples of the pruning. At hub $6$ the forward BFS stops at $5$ because
 $5\in L_{\mathrm{out}}(6)$ and $5\in L_{\mathrm{in}}(5)$ already certify $6\rightsquigarrow 5$;
-everything behind $5$ (namely $4,8,9,10$) is likewise covered through hub $5$, so the
+everything behind $5$ (namely $4,8,9,10$) happens to be covered through hub $5$ as well ---
+this is one of the cases where the certifying hub does cover the whole tail --- so the
 search need not go on. At hub $8$ the backward BFS stops at $4$ and at $10$, whose labels
 $L_{\mathrm{out}}(4)=\{4\}$ and $L_{\mathrm{out}}(10)=\{10\}$ already meet
 $L_{\mathrm{in}}(8)=\{4,5,10\}$.
 
 \medskip
+\noindent\begin{minipage}{\linewidth}
 \noindent\textbf{Final labels.}
 
 \begin{center}
@@ -479,6 +508,7 @@ $11$ & $\{6,11\}$         & $\{10,11\}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+\end{minipage}
 
 \noindent Sanity checks: $3\rightsquigarrow 9$ because
 $L_{\mathrm{out}}(3)\cap L_{\mathrm{in}}(9)=\{5\}$ (indeed $3\to 2\to 5\to 9$);
@@ -517,6 +547,11 @@ $5,6,2,4,10,1,3,7,8,9,11$.}
   \node[font=\small] at (5.5,-2.5) {Figure 5: the DAG $G$ (14 vertices, 23 edges)};
 \end{tikzpicture}
 \end{center}
+\figdata{Edges (23; vertex 1 is the only source):
+$1{\to}2$, $1{\to}3$, $1{\to}4$, $2{\to}5$, $2{\to}6$, $2{\to}9$, $3{\to}6$,
+$3{\to}7$, $3{\to}8$, $4{\to}8$, $4{\to}13$, $5{\to}9$, $6{\to}9$, $6{\to}10$,
+$7{\to}10$, $8{\to}10$, $8{\to}11$, $9{\to}12$, $10{\to}12$, $10{\to}13$,
+$11{\to}13$, $12{\to}14$, $13{\to}14$.}
 
 \noindent\textbf{\color{accent!85!black}Algorithm.} Number the tree vertices by a
 \textbf{left-to-right post-order} traversal. Each vertex $v$ receives the interval
@@ -587,7 +622,13 @@ number of each vertex is printed in \textcolor{accent}{blue} beside it.
   \end{scope}
 \end{tikzpicture}
 \end{center}
+\figdata{Children, left to right ---\\
+Tree 1: $1{:}\,2,3,4$; $2{:}\,5,6$; $3{:}\,7$; $4{:}\,8$; $5{:}\,9$; $8{:}\,10,11$;
+$10{:}\,12,13$; $12{:}\,14$.\\
+Tree 2: $1{:}\,2,3,4$; $2{:}\,5$; $3{:}\,6,7,8$; $6{:}\,9$; $7{:}\,10$; $8{:}\,11$;
+$9{:}\,12$; $11{:}\,13$; $12{:}\,14$.}
 
+\noindent\begin{minipage}{\linewidth}
 \noindent\textbf{Tree 1.} Post-order: $9,5,6,2,7,3,14,12,13,10,11,8,4,1$.
 
 \begin{center}
@@ -617,7 +658,9 @@ $14$ & $7$  & $[7,7]$    & $[7,7]$ & $1$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+\end{minipage}
 
+\noindent\begin{minipage}{\linewidth}
 \noindent\textbf{Tree 2.} Post-order: $5,2,14,12,9,6,10,7,13,11,8,3,4,1$.
 
 \begin{center}
@@ -647,7 +690,9 @@ $14$ & $3$  & $[3,3]$   & $[3,3]$ & $1$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+\end{minipage}
 
+\noindent\begin{minipage}{\linewidth}
 \subsubsection*{Which tree gives the better labelling?}
 
 \begin{center}
@@ -665,12 +710,13 @@ Non-tree edges absorbed at no cost & $2$ \ ($2\to 9$, $4\to 13$) & $0$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+\end{minipage}
 
 \noindent\textbf{\color{accent!85!black}Why.} A vertex's label starts as its own interval
 and then grows by inheriting intervals along its out-edges. Two distinct effects limit that
 growth.
 
-\begin{itemize}[leftmargin=1.3em]
+\begin{itemize}[nosep,leftmargin=1.3em]
   \item A non-tree edge $u\to w$ is \emph{free} whenever $w$ is already a tree descendant
     of $u$, because the tree path from $u$ down to $w$ carries $L(w)$ upward in any case.
     Note this is \emph{not} a containment effect: in Tree 1, $L(9)=\{[1,1],[7,8]\}$ is not
@@ -684,9 +730,9 @@ growth.
 \end{itemize}
 
 \noindent So a spanning tree is good precisely when it keeps mutually reachable clusters
-together inside one subtree.
+together inside one subtree. Applying that to the two spanning trees:
 
-\begin{itemize}[leftmargin=1.3em]
+\begin{itemize}[nosep,leftmargin=1.3em]
   \item \textbf{Tree 1} puts the DAG's whole converging tail --- $4,8,10,11,12,13,14$ ---
     into a single subtree rooted at $4$ ($4\to 8\to\{10,11\}$, $10\to\{12,13\}$,
     $12\to 14$). Every DAG edge among those vertices therefore stays inside that subtree,
@@ -726,6 +772,8 @@ branches and leaves vertex $4$ as an absorbing-nothing leaf.}
   \node[font=\small] at (1.3,-0.85) {Figure 7: graph for Q4};
 \end{tikzpicture}
 \end{center}
+\figdata{$E=\{A{-}B,\,A{-}C,\,B{-}C,\,C{-}D\}$;\quad
+$N(A)=\{B,C\}$, $N(B)=\{A,C\}$, $N(C)=\{A,B,D\}$, $N(D)=\{C\}$.}
 
 \[
   h_A^{(0)}=\begin{pmatrix}1\\0\end{pmatrix},\quad
